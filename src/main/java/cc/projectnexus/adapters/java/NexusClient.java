@@ -1,14 +1,13 @@
 package cc.projectnexus.adapters.java;
 
+import cc.projectnexus.adapters.java.handlers.NexusHandler;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-
 public abstract class NexusClient {
     private boolean isAuthorized;
-
     private String apiKey;
 
     public NexusClient(String token) {
@@ -19,12 +18,12 @@ public abstract class NexusClient {
         isAuthorized = false;
 
         if (isAuthorized) {
-            onEnable();
+            onAuthorizeSuccess();
+        } else {
+            onAuthorizeFail();
         }
     }
 
-    public abstract void onEnable();
-
-
-
+    public abstract void onAuthorizeSuccess();
+    public abstract void onAuthorizeFail();
 }
