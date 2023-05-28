@@ -1,4 +1,10 @@
-package cc.projectnexus.adapters.java;
+package cc.projectnexus.adapters.java.handlers;
+
+import cc.projectnexus.adapters.java.NexusClient;
+import cc.projectnexus.adapters.java.datamodels.Infraction;
+import cc.projectnexus.adapters.java.datamodels.Region;
+
+import java.util.List;
 
 public class NexusHandler {
     private static NexusClient client;
@@ -20,7 +26,7 @@ public class NexusHandler {
         return null;
     }
 
-    public static Infraction getInfractionFromUser(String id) throws IllegalAccessException {
+    public static Infraction getInfractionsFromUser(String id) throws IllegalAccessException {
         if (getClient() == null) {
             throw new IllegalAccessException("You must set the client before accessing methods.");
         }
@@ -28,12 +34,11 @@ public class NexusHandler {
         return null;
     }
 
-    public static Infraction getInfractionFromRegion(String regionName) throws IllegalAccessException {
+    public static List<Infraction> getInfractionsFromRegion(Region region) throws IllegalAccessException {
         if (getClient() == null) {
             throw new IllegalAccessException("You must set the client before accessing methods.");
         }
         return null;
     }
-
 
 }
