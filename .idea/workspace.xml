@@ -5,12 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f6e1a599-d764-45ba-9bd2-ae8757206637" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/cc/projectnexus/adapters/java/NexusClientProperties.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cc/projectnexus/adapters/java/handlers/NexusHttpHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codestream.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codestream.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cc/projectnexus/adapters/java/NexusClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cc/projectnexus/adapters/java/NexusClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cc/projectnexus/adapters/java/datamodels/GuildSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cc/projectnexus/adapters/java/datamodels/GuildSettings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cc/projectnexus/adapters/java/handlers/NexusHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cc/projectnexus/adapters/java/handlers/NexusHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +59,7 @@
       <workItem from="1685281402543" duration="1151000" />
       <workItem from="1685286084674" duration="32000" />
       <workItem from="1685300197151" duration="700000" />
-      <workItem from="1685399820306" duration="688000" />
+      <workItem from="1685399820306" duration="1621000" />
     </task>
     <servers />
   </component>

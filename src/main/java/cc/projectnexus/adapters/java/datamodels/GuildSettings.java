@@ -14,9 +14,7 @@ public class GuildSettings {
     private String guildId;
     private boolean autoBan;
     private boolean autoUnban;
-    private String banLogsChannel;
-    private String updatesChannel;
-    private String otherLogsChannel;
+    private String logsChannel;
     private Timestamp lastUpdated;
     private Region[] enabledRegions;
 }

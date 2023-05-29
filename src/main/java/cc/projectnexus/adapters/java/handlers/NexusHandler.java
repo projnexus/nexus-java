@@ -3,7 +3,11 @@ package cc.projectnexus.adapters.java.handlers;
 import cc.projectnexus.adapters.java.NexusClient;
 import cc.projectnexus.adapters.java.datamodels.Infraction;
 import cc.projectnexus.adapters.java.datamodels.Region;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class NexusHandler {
@@ -18,11 +22,31 @@ public class NexusHandler {
         return client;
     }
 
-    public static Infraction getAllInfractions() throws IllegalAccessException {
+    public static List<Infraction> getAllInfractions() throws IllegalAccessException {
         if (getClient() == null) {
             throw new IllegalAccessException("You must set the client before accessing methods.");
         }
-        // TODO: Accept method
+
+        try {
+            String res = NexusHttpHandler.sendRequest("GET", getClient().getApiKey() + "/infractions");
+            JSONObject jsonRes = new JSONObject(res);
+            JSONArray array = jsonRes.getJSONArray("infractions");
+
+            ArrayList<Infraction> infractions = new ArrayList<>();
+            array.forEach(a -> {
+                JSONObject object = new JSONObject(a);
+                Infraction infraction = new Infraction(
+                        object.getLong("id"),
+                        object.getLong("user_id"),
+                        (String[]) object.get("user_data"),
+
+                )
+            });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
         return null;
     }
 
