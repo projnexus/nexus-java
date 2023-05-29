@@ -1,6 +1,7 @@
 package cc.projectnexus.adapters.java;
 
 import cc.projectnexus.adapters.java.handlers.NexusHandler;
+import cc.projectnexus.adapters.java.handlers.NexusHttpHandler;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,17 +11,29 @@ public abstract class NexusClient {
     private boolean isAuthorized;
     private String apiKey;
 
-    public NexusClient(String token) {
+    public NexusClient(String token, NexusClientProperties properties) {
         System.out.println("Attempting to authorize provided token: " + token);
         this.apiKey = token;
+        NexusHandler.setClient(this);
 
-        // TODO: Add a return message if authorized
-        isAuthorized = false;
+        isAuthorized = NexusHttpHandler.test();
 
-        if (isAuthorized) {
+        if (isAuthorized || !properties.isUseTokenAuthorize()) {
             onAuthorizeSuccess();
+            if (properties.isDebug()) {
+                boolean test = NexusHttpHandler.test();
+                if (test) {
+                    System.out.println("Authorized Nexus Client.");
+                } else {
+                    onAuthorizeFail();
+                    System.out.println("Could not reach Nexus Client after authorization...");
+                }
+            }
         } else {
             onAuthorizeFail();
+            if (properties.isDebug()) {
+                System.out.println("Could not authorize NexusClient.");
+            }
         }
     }
 
