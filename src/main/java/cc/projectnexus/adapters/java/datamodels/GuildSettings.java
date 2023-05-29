@@ -15,6 +15,7 @@ public class GuildSettings {
     private boolean autoBan;
     private boolean autoUnban;
     private String logsChannel;
+    private Timestamp createdAt;
     private Timestamp lastUpdated;
     private Region[] enabledRegions;
 }
