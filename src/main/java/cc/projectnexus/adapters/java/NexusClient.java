@@ -10,10 +10,12 @@ import lombok.Setter;
 public abstract class NexusClient {
     private boolean isAuthorized;
     private String apiKey;
+    private String apiUri;
 
     public NexusClient(String token, NexusClientProperties properties) {
         System.out.println("Attempting to authorize provided token: " + token);
         this.apiKey = token;
+        this.apiUri = "https://projectnexus.cc/api/";
         NexusHandler.setClient(this);
 
         isAuthorized = NexusHttpHandler.test();

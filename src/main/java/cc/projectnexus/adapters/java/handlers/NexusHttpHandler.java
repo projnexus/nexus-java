@@ -1,6 +1,9 @@
 package cc.projectnexus.adapters.java.handlers;
 
 import cc.projectnexus.adapters.java.NexusClient;
+import cc.projectnexus.adapters.java.datamodels.GuildSettings;
+import cc.projectnexus.adapters.java.datamodels.Region;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -9,6 +12,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NexusHttpHandler {
 
@@ -90,15 +96,16 @@ public class NexusHttpHandler {
         return response.toString();
     }
 
+    // Check if the token the user provided is valid
     public static boolean test() {
         try {
-            String res = sendRequest("GET", NexusHandler.getClient().getApiKey() + "/test");
-            if (!res.isEmpty()) return true;
+            String res = sendRequest("GET", NexusHandler.getClient().getApiUri() + "/test");
+            // Using contains() as we cannot access the response code.
+            // The response will always have a body, so we cannot check if it is empty.
+            if (res.contains("authenticated")) return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
         return false;
     }
-
-
 }
