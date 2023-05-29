@@ -26,27 +26,7 @@ public class NexusHandler {
         if (getClient() == null) {
             throw new IllegalAccessException("You must set the client before accessing methods.");
         }
-
-        try {
-            String res = NexusHttpHandler.sendRequest("GET", getClient().getApiKey() + "/infractions");
-            JSONObject jsonRes = new JSONObject(res);
-            JSONArray array = jsonRes.getJSONArray("infractions");
-
-            ArrayList<Infraction> infractions = new ArrayList<>();
-            array.forEach(a -> {
-                JSONObject object = new JSONObject(a);
-                Infraction infraction = new Infraction(
-                        object.getLong("id"),
-                        object.getLong("user_id"),
-                        (String[]) object.get("user_data"),
-
-                )
-            });
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-
+        // TODO: Accept method
         return null;
     }
 

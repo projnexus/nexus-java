@@ -19,10 +19,10 @@ public abstract class NexusClient {
         isAuthorized = NexusHttpHandler.test();
 
         if (isAuthorized || !properties.isUseTokenAuthorize()) {
-            onAuthorizeSuccess();
             if (properties.isDebug()) {
                 boolean test = NexusHttpHandler.test();
                 if (test) {
+                    onAuthorizeSuccess();
                     System.out.println("Authorized Nexus Client.");
                 } else {
                     onAuthorizeFail();
