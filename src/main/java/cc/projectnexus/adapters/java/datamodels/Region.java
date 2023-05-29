@@ -28,4 +28,13 @@ public enum Region {
     public static List<Region> getRegionsByFilter(Predicate<Region> regionPredicate) {
         return getAllRegions().stream().filter(regionPredicate).collect(Collectors.toList());
     }
+
+    public static Region getRegionByIdentifier(String identifier) {
+        for (Region region : getAllRegions()) {
+            if (region.getIdentifier().equals(identifier)) {
+                return region;
+            }
+        }
+        throw new IllegalArgumentException("Invalid region identifier: " + identifier);
+    }
 }
