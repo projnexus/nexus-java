@@ -108,4 +108,35 @@ public class NexusHttpHandler {
         }
         return false;
     }
+
+    public static GuildSettings getGuildSettings(String guildId) {
+        try {
+            String res = sendRequest("GET", NexusHandler.getClient().getApiUri() + "/guilds/" + guildId);
+            JSONObject json = new JSONObject(res);
+
+            // Parse regions array into an array of Region objects
+            JSONArray jsonArray = json.getJSONArray("enabled_regions");
+            Region[] array = new Region[jsonArray.length()];
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                String regionName = jsonArray.getString(i);
+                Region region = Region.getRegionByIdentifier(regionName);
+                array[i] = region;
+            }
+
+            return new GuildSettings(
+                json.getLong("id"),                                 // id
+                json.getString("guildId"),                          // guildId
+                json.getBoolean("auto_ban"),                        // autoBan
+                json.getBoolean("auto_unban"),                      // autoUnban
+                json.getString("logs_channel"),                     // logsChannel
+                Timestamp.valueOf(json.getString("createdAt")),     // createdAt
+                Timestamp.valueOf(json.getString("updatedAt")),     // lastUpdated
+                array                                                    // enabledRegions
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
