@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class GuildSettingsHandler {
 	public static NexusClient getClient() {
-		return NexusHandler.getClient();
+		return NexusClient.getNexusInstance();
 	}
 
 	/**

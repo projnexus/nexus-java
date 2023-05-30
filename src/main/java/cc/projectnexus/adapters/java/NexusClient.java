@@ -1,6 +1,5 @@
 package cc.projectnexus.adapters.java;
 
-import cc.projectnexus.adapters.java.handlers.NexusHandler;
 import cc.projectnexus.adapters.java.api.ApiInteraction;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class NexusClient {
+    private static NexusClient instance;
     private boolean isAuthorized;
     private String apiKey;
     private String apiUri;
@@ -15,6 +15,7 @@ public abstract class NexusClient {
     private NexusClientProperties properties;
 
     public NexusClient(NexusClientProperties properties) {
+        instance = this;
         this.properties = properties;
         System.out.println("Attempting to authorize provided token: " + properties.getToken());
         this.apiKey = properties.getToken();
@@ -57,4 +58,7 @@ public abstract class NexusClient {
     public abstract void onAuthorizeSuccess();
     public abstract void onAuthorizeFail();
 
+    public static NexusClient getNexusInstance() {
+        return instance;
+    }
 }

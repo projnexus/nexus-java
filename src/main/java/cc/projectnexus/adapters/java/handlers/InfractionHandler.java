@@ -12,8 +12,9 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class InfractionHandler {
+
 	public static NexusClient getClient() {
-		return NexusHandler.getClient();
+		return NexusClient.getNexusInstance();
 	}
 
 	public static List<Infraction> getAllInfractions() throws IllegalAccessException {

@@ -1,9 +1,7 @@
 package cc.projectnexus.adapters.java.api;
 
-import cc.projectnexus.adapters.java.NexusClient;
 import cc.projectnexus.adapters.java.datamodels.GuildSettings;
 import cc.projectnexus.adapters.java.datamodels.Infraction;
-import cc.projectnexus.adapters.java.handlers.NexusHandler;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
