@@ -14,11 +14,12 @@ public abstract class NexusClient {
 
     private NexusClientProperties properties;
 
-    public NexusClient(String token, NexusClientProperties properties) {
+    public NexusClient(NexusClientProperties properties) {
         this.properties = properties;
-        System.out.println("Attempting to authorize provided token: " + token);
-        this.apiKey = token;
+        System.out.println("Attempting to authorize provided token: " + properties.getToken());
+        this.apiKey = properties.getToken();
         this.apiUri = "https://projectnexus.cc/api";
+
         isAuthorized = ApiInteraction.test();
 
         if (isAuthorized || !properties.isUseTokenAuthorize()) {
