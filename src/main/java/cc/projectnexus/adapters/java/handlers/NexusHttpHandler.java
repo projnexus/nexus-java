@@ -109,6 +109,49 @@ public class NexusHttpHandler {
         return false;
     }
 
+    public static GuildSettings[] getAllGuilds() {
+        try {
+            String res = sendRequest("GET", NexusHandler.getClient().getApiUri() + "/guilds");
+            JSONObject json = new JSONObject(res);
+
+            JSONArray jsonArray = json.getJSONArray("guilds");
+            List<GuildSettings> guilds = new ArrayList<>();
+
+            // Just a copy & paste of the getGuildSettings code
+            // I'm 99.9% sure there is a better way to do this
+            // Feel free to improve it
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONArray regionsArray = json.getJSONArray("enabled_regions");
+                Region[] regions = new Region[regionsArray.length()];
+
+                for (int j = 0; j < regionsArray.length(); j++) {
+                    String regionName = regionsArray.getString(j);
+                    Region region = Region.getRegionByIdentifier(regionName);
+                    regions[j] = region;
+                }
+
+                JSONObject guild = jsonArray.getJSONObject(i);
+                GuildSettings guildSettings = new GuildSettings(
+                    guild.getLong("id"),                                // id
+                    guild.getString("guildId"),                         // guildId
+                    guild.getBoolean("auto_ban"),                       // autoBan
+                    guild.getBoolean("auto_unban"),                     // autoUnban
+                    guild.getString("logs_channel"),                    // logsChannel
+                    Timestamp.valueOf(guild.getString("created_at")),   // createdAt
+                    Timestamp.valueOf(guild.getString("last_updated")), // lastUpdated
+                    regions                                                  // enabledRegions
+                );
+
+                guilds.add(guildSettings);
+            }
+
+            return guilds.toArray(new GuildSettings[0]);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static GuildSettings getGuildSettings(String guildId) {
         try {
             String res = sendRequest("GET", NexusHandler.getClient().getApiUri() + "/guilds/" + guildId);
