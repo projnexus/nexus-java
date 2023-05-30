@@ -238,5 +238,17 @@ public class NexusHttpHandler {
         }
     }
 
+    public static Infraction updateInfraction(Infraction infraction) {
+        if (infraction == null) return null;
+        try {
+            JSONObject payload = new JSONObject(infraction.toJson());
+            String res = sendRequestData("PUT", NexusHandler.getClient().getApiUri() + "/infractions/" + infraction.getId(), payload);
+            JSONObject json = new JSONObject(res);
+            return Infraction.fromJson(json);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 }
