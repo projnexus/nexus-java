@@ -19,8 +19,6 @@ public abstract class NexusClient {
         System.out.println("Attempting to authorize provided token: " + token);
         this.apiKey = token;
         this.apiUri = "https://projectnexus.cc/api";
-        NexusHandler.setClient(this);
-
         isAuthorized = ApiInteraction.test();
 
         if (isAuthorized || !properties.isUseTokenAuthorize()) {
