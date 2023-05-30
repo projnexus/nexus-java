@@ -132,6 +132,7 @@ public class NexusHttpHandler {
     }
 
     public static GuildSettings getGuild(String guildId) {
+        if (guildId == null) return null;
         try {
             String res = sendRequest("GET", NexusHandler.getClient().getApiUri() + "/guilds/" + guildId);
             JSONObject json = new JSONObject(res);
@@ -202,6 +203,7 @@ public class NexusHttpHandler {
     }
 
     public static Infraction getInfraction(Long infractionId) {
+        if (infractionId == null) return null;
         try {
             String res = sendRequest("GET", NexusHandler.getClient().getApiUri() + "/infractions/" + infractionId);
             JSONObject json = new JSONObject(res);
