@@ -1,5 +1,6 @@
 package cc.projectnexus.adapters.java.api;
 
+import cc.projectnexus.adapters.java.NexusClient;
 import cc.projectnexus.adapters.java.datamodels.GuildSettings;
 import cc.projectnexus.adapters.java.datamodels.Infraction;
 import org.json.JSONArray;
@@ -16,6 +17,8 @@ import java.util.List;
 
 public class ApiInteraction {
 
+    private static String uri = NexusClient.getNexusInstance().getApiUri();
+
     public static String sendRequest(String method, String url) throws IOException {
         HttpURLConnection connection = null;
         BufferedReader reader = null;
@@ -25,7 +28,7 @@ public class ApiInteraction {
             URL requestUrl = new URL(url);
             connection = (HttpURLConnection) requestUrl.openConnection();
             connection.setRequestMethod(method);
-            connection.setRequestProperty("Authorization", NexusHandler.getClient().getApiKey());
+            connection.setRequestProperty("Authorization", NexusClient.getNexusInstance().getApiKey());
             connection.setRequestProperty("User-Agent", "NexusBot");
             connection.setRequestProperty("Accept", "application/json");
             connection.setRequestProperty("Content-Type", "application/json");
@@ -61,7 +64,7 @@ public class ApiInteraction {
             URL requestUrl = new URL(url);
             connection = (HttpURLConnection) requestUrl.openConnection();
             connection.setRequestMethod(method);
-            connection.setRequestProperty("Authorization", NexusHandler.getClient().getApiKey());
+            connection.setRequestProperty("Authorization", NexusClient.getNexusInstance().getApiKey());
             connection.setRequestProperty("User-Agent", "NexusBot");
             connection.setRequestProperty("Accept", "application/json");
             connection.setRequestProperty("Content-Type", "application/json");
@@ -97,7 +100,7 @@ public class ApiInteraction {
     // Check if the token the user provided is valid
     public static boolean test() {
         try {
-            String res = sendRequest("GET", NexusHandler.getClient().getApiUri() + "/test");
+            String res = sendRequest("GET", NexusClient.getNexusInstance().getApiUri() + "/test");
             // Using contains() as we cannot access the response code.
             // The response will always have a body, so we cannot check if it is empty.
             if (res.contains("authenticated")) return true;
@@ -109,7 +112,7 @@ public class ApiInteraction {
 
     public static GuildSettings[] getAllGuilds() {
         try {
-            String res = sendRequest("GET", NexusHandler.getClient().getApiUri() + "/guilds");
+            String res = sendRequest("GET", uri + "/guilds");
             JSONObject json = new JSONObject(res);
 
             JSONArray jsonArray = json.getJSONArray("guilds");
@@ -131,7 +134,7 @@ public class ApiInteraction {
     public static GuildSettings getGuild(String guildId) {
         if (guildId == null) return null;
         try {
-            String res = sendRequest("GET", NexusHandler.getClient().getApiUri() + "/guilds/" + guildId);
+            String res = sendRequest("GET", uri + "/guilds/" + guildId);
             JSONObject json = new JSONObject(res);
             return GuildSettings.fromJson(json);
         } catch (IOException e) {
@@ -144,7 +147,7 @@ public class ApiInteraction {
         if (guildId == null) return null;
         try {
             JSONObject payload = new JSONObject("{\"guildId\":" + guildId + "}");
-            String res = sendRequestData("POST", NexusHandler.getClient().getApiUri() + "/guilds/", payload);
+            String res = sendRequestData("POST", uri + "/guilds/", payload);
             JSONObject json = new JSONObject(res);
             return GuildSettings.fromJson(json);
         } catch (IOException e) {
@@ -156,7 +159,7 @@ public class ApiInteraction {
     public static boolean deleteGuild(GuildSettings guildSettings) {
         if (guildSettings == null) return false;
         try {
-            String res = sendRequest("DELETE", NexusHandler.getClient().getApiUri() + "/guilds/" + guildSettings.getGuildId());
+            String res = sendRequest("DELETE", uri + "/guilds/" + guildSettings.getGuildId());
             return res.contains("deleted");
         } catch (IOException e) {
             e.printStackTrace();
@@ -168,7 +171,7 @@ public class ApiInteraction {
         if (guildSettings == null) return null;
         try {
             JSONObject payload = new JSONObject(guildSettings.toJson());
-            String res = sendRequestData("PUT", NexusHandler.getClient().getApiUri() + "/guilds/" + guildSettings.getGuildId(), payload);
+            String res = sendRequestData("PUT", uri + "/guilds/" + guildSettings.getGuildId(), payload);
             JSONObject json = new JSONObject(res);
             return GuildSettings.fromJson(json);
         } catch (IOException e) {
@@ -179,7 +182,7 @@ public class ApiInteraction {
 
     public static Infraction[] getAllInfractions() {
         try {
-            String res = sendRequest("GET", NexusHandler.getClient().getApiUri() + "/infractions");
+            String res = sendRequest("GET", uri + "/infractions");
             JSONObject json = new JSONObject(res);
 
             JSONArray jsonArray = json.getJSONArray("infractions");
@@ -202,7 +205,7 @@ public class ApiInteraction {
     public static Infraction getInfraction(Long infractionId) {
         if (infractionId == null) return null;
         try {
-            String res = sendRequest("GET", NexusHandler.getClient().getApiUri() + "/infractions/" + infractionId);
+            String res = sendRequest("GET", uri + "/infractions/" + infractionId);
             JSONObject json = new JSONObject(res);
             return Infraction.fromJson(json);
         } catch (IOException e) {
@@ -215,7 +218,7 @@ public class ApiInteraction {
         if (infraction == null) return null;
         try {
             JSONObject payload = infraction.toJson();
-            String res = sendRequestData("POST", NexusHandler.getClient().getApiUri() + "/infractions/", payload);
+            String res = sendRequestData("POST", uri + "/infractions/", payload);
             JSONObject json = new JSONObject(res);
             return Infraction.fromJson(json);
         } catch (IOException e) {
@@ -227,7 +230,7 @@ public class ApiInteraction {
     public static boolean deleteInfraction(Infraction infraction) {
         if (infraction == null) return false;
         try {
-            String res = sendRequest("DELETE", NexusHandler.getClient().getApiUri() + "/infractions/" + infraction.getId());
+            String res = sendRequest("DELETE", uri + "/infractions/" + infraction.getId());
             return res.contains("deleted");
         } catch (IOException e) {
             e.printStackTrace();
@@ -239,7 +242,7 @@ public class ApiInteraction {
         if (infraction == null) return null;
         try {
             JSONObject payload = new JSONObject(infraction.toJson());
-            String res = sendRequestData("PUT", NexusHandler.getClient().getApiUri() + "/infractions/" + infraction.getId(), payload);
+            String res = sendRequestData("PUT", uri + "/infractions/" + infraction.getId(), payload);
             JSONObject json = new JSONObject(res);
             return Infraction.fromJson(json);
         } catch (IOException e) {
