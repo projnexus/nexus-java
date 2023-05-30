@@ -154,6 +154,19 @@ public class NexusHttpHandler {
         }
     }
 
+    public static GuildSettings updateGuild(GuildSettings guildSettings) {
+        if (guildSettings == null) return null;
+        try {
+            JSONObject payload = new JSONObject(guildSettings.toJson());
+            String res = sendRequestData("PUT", NexusHandler.getClient().getApiUri() + "/guilds/" + guildSettings.getGuildId(), payload);
+            JSONObject json = new JSONObject(res);
+            return GuildSettings.fromJson(json);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static GuildSettings getGuildSettings(String guildId) {
         try {
             String res = sendRequest("GET", NexusHandler.getClient().getApiUri() + "/guilds/" + guildId);
