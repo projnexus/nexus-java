@@ -79,6 +79,20 @@ public class NexusHandler {
         return ApiInteraction.createInfraction(infraction);
     }
 
+    public static Infraction updateInfraction(Infraction infraction) throws IllegalAccessException {
+        if (getClient() == null) {
+            throw new IllegalAccessException("You must set the client before accessing methods.");
+        }
+        return ApiInteraction.updateInfraction(infraction);
+    }
+
+    public static boolean deleteInfraction(Infraction infraction) throws IllegalAccessException {
+        if (getClient() == null) {
+            throw new IllegalAccessException("You must set the client before accessing methods.");
+        }
+        return ApiInteraction.deleteInfraction(infraction);
+    }
+
     public static List<GuildSettings> getAllGuildSettings() throws IllegalAccessException {
         if (getClient() == null) {
             throw new IllegalAccessException("You must set the client before accessing methods.");
@@ -86,6 +100,26 @@ public class NexusHandler {
         return Arrays.asList(ApiInteraction.getAllGuilds());
     }
 
+    public static List<GuildSettings> getGuildSettingsFromFilter(Predicate<GuildSettings> guildSettingsPredicate) throws IllegalAccessException {
+        if (getClient() == null) {
+            throw new IllegalAccessException("You must set the client before accessing methods.");
+        }
+        return getAllGuildSettings().stream().filter(guildSettingsPredicate).collect(Collectors.toList());
+    }
+
+    public static GuildSettings create(String id) throws IllegalAccessException {
+        if (getClient() == null) {
+            throw new IllegalAccessException("You must set the client before accessing methods.");
+        }
+        return ApiInteraction.createGuild(id);
+    }
+
+    public static GuildSettings update(GuildSettings settings) throws IllegalAccessException {
+        if (getClient() == null) {
+            throw new IllegalAccessException("You must set the client before accessing methods.");
+        }
+        return ApiInteraction.updateGuild(settings);
+    }
 
 
 }
