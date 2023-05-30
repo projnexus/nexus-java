@@ -143,6 +143,17 @@ public class NexusHttpHandler {
         }
     }
 
+    public static boolean deleteGuild(GuildSettings guildSettings) {
+        if (guildSettings == null) return false;
+        try {
+            String res = sendRequest("DELETE", NexusHandler.getClient().getApiUri() + "/guilds/" + guildSettings.getGuildId());
+            return res.contains("deleted");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public static GuildSettings getGuildSettings(String guildId) {
         try {
             String res = sendRequest("GET", NexusHandler.getClient().getApiUri() + "/guilds/" + guildId);
