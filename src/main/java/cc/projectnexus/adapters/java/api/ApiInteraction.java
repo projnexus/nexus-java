@@ -1,9 +1,8 @@
-package cc.projectnexus.adapters.java.handlers;
+package cc.projectnexus.adapters.java.api;
 
-import cc.projectnexus.adapters.java.NexusClient;
 import cc.projectnexus.adapters.java.datamodels.GuildSettings;
 import cc.projectnexus.adapters.java.datamodels.Infraction;
-import cc.projectnexus.adapters.java.datamodels.Region;
+import cc.projectnexus.adapters.java.handlers.NexusHandler;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -13,11 +12,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NexusHttpHandler {
+public class ApiInteraction {
 
     public static String sendRequest(String method, String url) throws IOException {
         HttpURLConnection connection = null;

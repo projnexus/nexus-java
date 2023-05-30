@@ -1,6 +1,8 @@
 package cc.projectnexus.adapters.java.handlers;
 
 import cc.projectnexus.adapters.java.NexusClient;
+import cc.projectnexus.adapters.java.api.ApiInteraction;
+import cc.projectnexus.adapters.java.datamodels.GuildSettings;
 import cc.projectnexus.adapters.java.datamodels.Infraction;
 import cc.projectnexus.adapters.java.datamodels.Region;
 import org.json.JSONArray;
@@ -8,7 +10,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class NexusHandler {
     private static NexusClient client;
@@ -26,23 +31,54 @@ public class NexusHandler {
         if (getClient() == null) {
             throw new IllegalAccessException("You must set the client before accessing methods.");
         }
-        // TODO: Accept method
-        return null;
+        return Arrays.asList(ApiInteraction.getAllInfractions());
     }
 
-    public static Infraction getInfractionsFromUser(String id) throws IllegalAccessException {
+    public static List<Infraction> getInfractionsFromUser(String id) throws IllegalAccessException {
         if (getClient() == null) {
             throw new IllegalAccessException("You must set the client before accessing methods.");
         }
-        // TODO: Accept method
-        return null;
+        return getAllInfractions().stream().filter(inf -> inf.getUserId() == Long.valueOf(id)).collect(Collectors.toList());
     }
 
     public static List<Infraction> getInfractionsFromRegion(Region region) throws IllegalAccessException {
         if (getClient() == null) {
             throw new IllegalAccessException("You must set the client before accessing methods.");
         }
-        return null;
+
+        List<Infraction> found = new ArrayList<>();
+        for (Infraction interaction : getAllInfractions()) {
+            for (Region re : interaction.getRegions()) {
+                if (region == re) {
+                    found.add(interaction);
+                }
+            }
+        }
+
+        return found;
     }
+
+    public static List<Infraction> getInfractionByFilter(Predicate<Infraction> infractionPredicate) throws IllegalAccessException {
+        if (getClient() == null) {
+            throw new IllegalAccessException("You must set the client before accessing methods.");
+        }
+        return getAllInfractions().stream().filter(infractionPredicate).collect(Collectors.toList());
+    }
+
+    public static Infraction getInfractionById(long id) throws IllegalAccessException {
+        if (getClient() == null) {
+            throw new IllegalAccessException("You must set the client before accessing methods.");
+        }
+        return ApiInteraction.getInfraction(id);
+    }
+
+    public static List<GuildSettings> getAllGuildSettings() throws IllegalAccessException {
+        if (getClient() == null) {
+            throw new IllegalAccessException("You must set the client before accessing methods.");
+        }
+        return Arrays.asList(ApiInteraction.getAllGuilds());
+    }
+
+
 
 }

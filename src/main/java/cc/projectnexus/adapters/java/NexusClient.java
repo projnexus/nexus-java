@@ -1,7 +1,7 @@
 package cc.projectnexus.adapters.java;
 
 import cc.projectnexus.adapters.java.handlers.NexusHandler;
-import cc.projectnexus.adapters.java.handlers.NexusHttpHandler;
+import cc.projectnexus.adapters.java.api.ApiInteraction;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,11 +18,11 @@ public abstract class NexusClient {
         this.apiUri = "https://projectnexus.cc/api";
         NexusHandler.setClient(this);
 
-        isAuthorized = NexusHttpHandler.test();
+        isAuthorized = ApiInteraction.test();
 
         if (isAuthorized || !properties.isUseTokenAuthorize()) {
             if (properties.isDebug()) {
-                boolean test = NexusHttpHandler.test();
+                boolean test = ApiInteraction.test();
                 if (test) {
                     onAuthorizeSuccess();
                     System.out.println("Authorized Nexus Client.");
