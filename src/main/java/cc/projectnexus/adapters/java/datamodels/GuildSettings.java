@@ -21,6 +21,7 @@ public class GuildSettings {
     private Timestamp lastUpdated;
     private Region[] enabledRegions;
 
+    // Convert this object to a JSON object
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
 
@@ -42,6 +43,7 @@ public class GuildSettings {
         return json;
     }
 
+    // Convert a JSON object to this object
     public static GuildSettings fromJson(JSONObject json) {
         GuildSettings guildSettings = new GuildSettings();
 

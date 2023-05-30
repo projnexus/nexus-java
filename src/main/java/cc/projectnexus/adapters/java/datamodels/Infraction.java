@@ -24,6 +24,7 @@ public class Infraction {
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
+    // Convert this object to a JSON object
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
 
@@ -47,6 +48,7 @@ public class Infraction {
         return json;
     }
 
+    // Convert a JSON object to this object
     public static Infraction fromJson(JSONObject json) {
         Infraction infraction = new Infraction();
 
