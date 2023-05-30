@@ -227,4 +227,16 @@ public class NexusHttpHandler {
         }
     }
 
+    public static boolean deleteInfraction(Infraction infraction) {
+        if (infraction == null) return false;
+        try {
+            String res = sendRequest("DELETE", NexusHandler.getClient().getApiUri() + "/infractions/" + infraction.getId());
+            return res.contains("deleted");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
 }
