@@ -31,6 +31,12 @@ public abstract class NexusClient {
                     System.out.println("Could not reach Nexus Client after authorization...");
                 }
             }
+            boolean test = ApiInteraction.test();
+            if (test) {
+                onAuthorizeFail();
+            } else {
+                onAuthorizeFail();
+            }
         } else {
             onAuthorizeFail();
             if (properties.isDebug()) {
@@ -38,7 +44,6 @@ public abstract class NexusClient {
             }
         }
     }
-
     public abstract void onAuthorizeSuccess();
     public abstract void onAuthorizeFail();
 }
