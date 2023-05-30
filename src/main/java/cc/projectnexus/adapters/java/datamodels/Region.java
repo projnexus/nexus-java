@@ -18,8 +18,8 @@ public enum Region {
     AFRICA("Africa", "africa"),
     OCEANIA("Oceania", "oceania");
 
-    String displayName;
-    String identifier;
+    private final String displayName;
+    private final String identifier;
 
     public static List<Region> getAllRegions() {
         return Arrays.stream(values()).collect(Collectors.toList());
@@ -37,4 +37,5 @@ public enum Region {
         }
         throw new IllegalArgumentException("Invalid region identifier: " + identifier);
     }
+
 }

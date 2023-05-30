@@ -46,4 +46,5 @@ public abstract class NexusClient {
     }
     public abstract void onAuthorizeSuccess();
     public abstract void onAuthorizeFail();
+
 }
