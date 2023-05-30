@@ -130,6 +130,17 @@ public class NexusHttpHandler {
         }
     }
 
+    public static GuildSettings getGuild(String guildId) {
+        try {
+            String res = sendRequest("GET", NexusHandler.getClient().getApiUri() + "/guilds/" + guildId);
+            JSONObject json = new JSONObject(res);
+            return GuildSettings.fromJson(json);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static GuildSettings createGuild(String guildId) {
         if (guildId == null) return null;
         try {
@@ -159,17 +170,6 @@ public class NexusHttpHandler {
         try {
             JSONObject payload = new JSONObject(guildSettings.toJson());
             String res = sendRequestData("PUT", NexusHandler.getClient().getApiUri() + "/guilds/" + guildSettings.getGuildId(), payload);
-            JSONObject json = new JSONObject(res);
-            return GuildSettings.fromJson(json);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public static GuildSettings getGuildSettings(String guildId) {
-        try {
-            String res = sendRequest("GET", NexusHandler.getClient().getApiUri() + "/guilds/" + guildId);
             JSONObject json = new JSONObject(res);
             return GuildSettings.fromJson(json);
         } catch (IOException e) {
