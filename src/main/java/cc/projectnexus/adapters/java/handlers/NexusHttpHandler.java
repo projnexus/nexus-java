@@ -117,31 +117,9 @@ public class NexusHttpHandler {
             JSONArray jsonArray = json.getJSONArray("guilds");
             List<GuildSettings> guilds = new ArrayList<>();
 
-            // Just a copy & paste of the getGuildSettings code
-            // I'm 99.9% sure there is a better way to do this
-            // Feel free to improve it
             for (int i = 0; i < jsonArray.length(); i++) {
-                JSONArray regionsArray = json.getJSONArray("enabled_regions");
-                Region[] regions = new Region[regionsArray.length()];
-
-                for (int j = 0; j < regionsArray.length(); j++) {
-                    String regionName = regionsArray.getString(j);
-                    Region region = Region.getRegionByIdentifier(regionName);
-                    regions[j] = region;
-                }
-
                 JSONObject guild = jsonArray.getJSONObject(i);
-                GuildSettings guildSettings = new GuildSettings(
-                    guild.getLong("id"),                                // id
-                    guild.getString("guildId"),                         // guildId
-                    guild.getBoolean("auto_ban"),                       // autoBan
-                    guild.getBoolean("auto_unban"),                     // autoUnban
-                    guild.getString("logs_channel"),                    // logsChannel
-                    Timestamp.valueOf(guild.getString("created_at")),   // createdAt
-                    Timestamp.valueOf(guild.getString("last_updated")), // lastUpdated
-                    regions                                                  // enabledRegions
-                );
-
+                GuildSettings guildSettings = GuildSettings.fromJson(guild);
                 guilds.add(guildSettings);
             }
 
@@ -152,31 +130,24 @@ public class NexusHttpHandler {
         }
     }
 
+    public static GuildSettings createGuild(String guildId) {
+        if (guildId == null) return null;
+        try {
+            JSONObject payload = new JSONObject("{\"guildId\":" + guildId + "}");
+            String res = sendRequestData("POST", NexusHandler.getClient().getApiUri() + "/guilds/", payload);
+            JSONObject json = new JSONObject(res);
+            return GuildSettings.fromJson(json);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static GuildSettings getGuildSettings(String guildId) {
         try {
             String res = sendRequest("GET", NexusHandler.getClient().getApiUri() + "/guilds/" + guildId);
             JSONObject json = new JSONObject(res);
-
-            // Parse regions array into an array of Region objects
-            JSONArray jsonArray = json.getJSONArray("enabled_regions");
-            Region[] array = new Region[jsonArray.length()];
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-                String regionName = jsonArray.getString(i);
-                Region region = Region.getRegionByIdentifier(regionName);
-                array[i] = region;
-            }
-
-            return new GuildSettings(
-                json.getLong("id"),                                 // id
-                json.getString("guildId"),                          // guildId
-                json.getBoolean("auto_ban"),                        // autoBan
-                json.getBoolean("auto_unban"),                      // autoUnban
-                json.getString("logs_channel"),                     // logsChannel
-                Timestamp.valueOf(json.getString("createdAt")),     // createdAt
-                Timestamp.valueOf(json.getString("updatedAt")),     // lastUpdated
-                array                                                    // enabledRegions
-            );
+            return GuildSettings.fromJson(json);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
