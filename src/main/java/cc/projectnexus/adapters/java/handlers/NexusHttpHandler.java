@@ -2,6 +2,7 @@ package cc.projectnexus.adapters.java.handlers;
 
 import cc.projectnexus.adapters.java.NexusClient;
 import cc.projectnexus.adapters.java.datamodels.GuildSettings;
+import cc.projectnexus.adapters.java.datamodels.Infraction;
 import cc.projectnexus.adapters.java.datamodels.Region;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -172,6 +173,28 @@ public class NexusHttpHandler {
             String res = sendRequestData("PUT", NexusHandler.getClient().getApiUri() + "/guilds/" + guildSettings.getGuildId(), payload);
             JSONObject json = new JSONObject(res);
             return GuildSettings.fromJson(json);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Infraction[] getAllInfractions() {
+        try {
+            String res = sendRequest("GET", NexusHandler.getClient().getApiUri() + "/infractions");
+            JSONObject json = new JSONObject(res);
+
+            JSONArray jsonArray = json.getJSONArray("infractions");
+            List<Infraction> infractions = new ArrayList<>();
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject infractionJson = jsonArray.getJSONObject(i);
+                Infraction infraction = Infraction.fromJson(infractionJson);
+
+                infractions.add(infraction);
+            }
+
+            return infractions.toArray(new Infraction[0]);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
