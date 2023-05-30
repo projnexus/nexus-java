@@ -200,4 +200,15 @@ public class NexusHttpHandler {
             return null;
         }
     }
+
+    public static Infraction getInfraction(Long infractionId) {
+        try {
+            String res = sendRequest("GET", NexusHandler.getClient().getApiUri() + "/infractions/" + infractionId);
+            JSONObject json = new JSONObject(res);
+            return Infraction.fromJson(json);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
