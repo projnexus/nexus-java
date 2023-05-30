@@ -12,7 +12,10 @@ public abstract class NexusClient {
     private String apiKey;
     private String apiUri;
 
+    private NexusClientProperties properties;
+
     public NexusClient(String token, NexusClientProperties properties) {
+        this.properties = properties;
         System.out.println("Attempting to authorize provided token: " + token);
         this.apiKey = token;
         this.apiUri = "https://projectnexus.cc/api";
@@ -25,10 +28,18 @@ public abstract class NexusClient {
                 boolean test = ApiInteraction.test();
                 if (test) {
                     onAuthorizeSuccess();
-                    System.out.println("Authorized Nexus Client.");
+                    if (properties.isDebug()) {
+                        System.out.println("Connection to API successful.");
+                    }
                 } else {
                     onAuthorizeFail();
-                    System.out.println("Could not reach Nexus Client after authorization...");
+                    if (properties.isDebug()) {
+                        System.out.println("Connection to API Failed.");
+                    }
+                }
+
+                if (!properties.isUseTokenAuthorize()) {
+                    onAuthorizeSuccess();
                 }
             }
             boolean test = ApiInteraction.test();
