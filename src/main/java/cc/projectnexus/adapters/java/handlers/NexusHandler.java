@@ -72,6 +72,13 @@ public class NexusHandler {
         return ApiInteraction.getInfraction(id);
     }
 
+    public static Infraction createInfraction(Infraction infraction) throws IllegalAccessException {
+        if (getClient() == null) {
+            throw new IllegalAccessException("You must set the client before accessing methods.");
+        }
+        return ApiInteraction.createInfraction(infraction);
+    }
+
     public static List<GuildSettings> getAllGuildSettings() throws IllegalAccessException {
         if (getClient() == null) {
             throw new IllegalAccessException("You must set the client before accessing methods.");
