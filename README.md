@@ -1,40 +1,15 @@
-# nexus-java
- Officially supported Java API for Nexus.
+![Nexus-Branding](https://media.discordapp.net/attachments/1104529119825371227/1113507119883374653/NexusAPI_Java.png)
+![Nexus-Badges](https://media.discordapp.net/attachments/1104529119825371227/1113508062616100955/Badge.png)
+<br>
+Officially supported Java API for Nexus.
 
 ## Installation
 
-In order to properly setup the repository, you need to have the Jitpack repository installed on your project. 
+Documentation is moved to https://developers.projectnexus.cc/
 
-Maven:
-```xml
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
-```
-
-Gradle
-```xml
-	allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
-```
-
-Then you need to add the actual dependency.
-
-Maven:
-```xml
-        <dependency>
-            <groupId>com.github.projnexus</groupId>
-            <artifactId>nexus-java</artifactId>
-            <version>1.0.0-beta-v1</version> <!-- replace with latest version -->
-        </dependency>
-```
+## Developers
+- @codebyxemu (Lead Developer)
+- @Lvmostwanted (Developer & Original API Lead Dev)
 
 Gradle:
 ```xml	
