@@ -14,6 +14,10 @@ public abstract class NexusClient {
 
     private NexusClientProperties properties;
 
+    /**
+     * The client constructor that is required.
+     * @param properties The properties object, remember to pass in the URI!
+     */
     public NexusClient(NexusClientProperties properties) {
         instance = this;
         this.properties = properties;
@@ -55,9 +59,14 @@ public abstract class NexusClient {
             }
         }
     }
+
     public abstract void onAuthorizeSuccess();
     public abstract void onAuthorizeFail();
 
+    /**
+     * Return a new instance of NexusClient.
+     * @return Return a new instance of NexusClient.
+     */
     public static NexusClient getNexusInstance() {
         return instance;
     }
