@@ -79,7 +79,7 @@ public class ApiInteraction {
             System.out.println(String.valueOf(payload));
 
             outputStream = connection.getOutputStream();
-            outputStream.write(payload.toString().getBytes());
+            outputStream.write(payload.getBytes());
             outputStream.flush();
 
             int responseCode = connection.getResponseCode();
@@ -156,7 +156,7 @@ public class ApiInteraction {
         if (guildId == null) return null;
         try {
             Gson gson = new Gson();
-            String payload = gson.toJson("{\"guildId\": \"" + guildId + "\"}");
+            String payload = "{\"guildId\": \"" + guildId + "\"}";
             String res = sendRequestData("POST", uri + "/guilds/", payload);
             GuildSettings guildSettings = gson.fromJson(res, GuildSettings.class);
             setTimestampFields(guildSettings, res);
