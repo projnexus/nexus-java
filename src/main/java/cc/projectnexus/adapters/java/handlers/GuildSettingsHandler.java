@@ -3,8 +3,6 @@ package cc.projectnexus.adapters.java.handlers;
 import cc.projectnexus.adapters.java.NexusClient;
 import cc.projectnexus.adapters.java.api.ApiInteraction;
 import cc.projectnexus.adapters.java.datamodels.GuildSettings;
-import cc.projectnexus.adapters.java.datamodels.Infraction;
-import cc.projectnexus.adapters.java.datamodels.Region;
 
 import java.util.*;
 import java.util.function.Predicate;

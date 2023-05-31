@@ -3,8 +3,7 @@ package cc.projectnexus.adapters.java.api;
 import cc.projectnexus.adapters.java.NexusClient;
 import cc.projectnexus.adapters.java.datamodels.GuildSettings;
 import cc.projectnexus.adapters.java.datamodels.Infraction;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,8 +11,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
+import com.google.gson.Gson;
+
+import static cc.projectnexus.adapters.java.utils.JavaScriptUtils.*;
 
 public class ApiInteraction {
 
@@ -54,7 +55,7 @@ public class ApiInteraction {
         return response.toString();
     }
 
-    private static String sendRequestData(String method, String url, JSONObject payload) throws IOException {
+    private static String sendRequestData(String method, String url, String payload) throws IOException {
         HttpURLConnection connection = null;
         BufferedReader reader = null;
         OutputStream outputStream = null;
@@ -113,15 +114,13 @@ public class ApiInteraction {
     public static GuildSettings[] getAllGuilds() {
         try {
             String res = sendRequest("GET", uri + "/guilds");
-            JSONObject json = new JSONObject(res);
+            Gson gson = new Gson();
 
-            JSONArray jsonArray = json.getJSONArray("guilds");
-            List<GuildSettings> guilds = new ArrayList<>();
+            TypeToken<List<GuildSettings>> token = new TypeToken<List<GuildSettings>>() {};
+            List<GuildSettings> guilds = gson.fromJson(res, token.getType());
 
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject guild = jsonArray.getJSONObject(i);
-                GuildSettings guildSettings = GuildSettings.fromJson(guild);
-                guilds.add(guildSettings);
+            for (GuildSettings guild : guilds) {
+                setTimestampFields(guild, gson.toJson(guild));
             }
 
             return guilds.toArray(new GuildSettings[0]);
@@ -134,9 +133,11 @@ public class ApiInteraction {
     public static GuildSettings getGuild(String guildId) {
         if (guildId == null) return null;
         try {
+            Gson gson = new Gson();
             String res = sendRequest("GET", uri + "/guilds/" + guildId);
-            JSONObject json = new JSONObject(res);
-            return GuildSettings.fromJson(json);
+            GuildSettings guildSettings = gson.fromJson(res, GuildSettings.class);
+            setTimestampFields(guildSettings, res);
+            return guildSettings;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -146,10 +147,12 @@ public class ApiInteraction {
     public static GuildSettings createGuild(String guildId) {
         if (guildId == null) return null;
         try {
-            JSONObject payload = new JSONObject("{\"guildId\": \"" + guildId + "\"}");
+            Gson gson = new Gson();
+            String payload = gson.toJson("{\"guildId\": \"" + guildId + "\"}");
             String res = sendRequestData("POST", uri + "/guilds/", payload);
-            JSONObject json = new JSONObject(res);
-            return GuildSettings.fromJson(json);
+            GuildSettings guildSettings = gson.fromJson(res, GuildSettings.class);
+            setTimestampFields(guildSettings, res);
+            return guildSettings;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -170,10 +173,12 @@ public class ApiInteraction {
     public static GuildSettings updateGuild(GuildSettings guildSettings) {
         if (guildSettings == null) return null;
         try {
-            JSONObject payload = new JSONObject(guildSettings.toJson());
+            Gson gson = new Gson();
+            String payload = gson.toJson(guildSettings);
             String res = sendRequestData("PUT", uri + "/guilds/" + guildSettings.getGuildId(), payload);
-            JSONObject json = new JSONObject(res);
-            return GuildSettings.fromJson(json);
+            GuildSettings updatedGuildSettings = gson.fromJson(res, GuildSettings.class);
+            setTimestampFields(updatedGuildSettings, res);
+            return updatedGuildSettings;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -183,16 +188,13 @@ public class ApiInteraction {
     public static Infraction[] getAllInfractions() {
         try {
             String res = sendRequest("GET", uri + "/infractions");
-            JSONObject json = new JSONObject(res);
+            Gson gson = new Gson();
 
-            JSONArray jsonArray = json.getJSONArray("infractions");
-            List<Infraction> infractions = new ArrayList<>();
+            TypeToken<List<Infraction>> token = new TypeToken<List<Infraction>>() {};
+            List<Infraction> infractions = gson.fromJson(res, token.getType());
 
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject infractionJson = jsonArray.getJSONObject(i);
-                Infraction infraction = Infraction.fromJson(infractionJson);
-
-                infractions.add(infraction);
+            for (Infraction infraction : infractions) {
+                setTimestampFields(infraction, gson.toJson(infraction));
             }
 
             return infractions.toArray(new Infraction[0]);
@@ -205,9 +207,11 @@ public class ApiInteraction {
     public static Infraction getInfraction(Long infractionId) {
         if (infractionId == null) return null;
         try {
+            Gson gson = new Gson();
             String res = sendRequest("GET", uri + "/infractions/" + infractionId);
-            JSONObject json = new JSONObject(res);
-            return Infraction.fromJson(json);
+            Infraction infraction = gson.fromJson(res, Infraction.class);
+            setTimestampFields(infraction, res);
+            return infraction;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -217,10 +221,10 @@ public class ApiInteraction {
     public static Infraction createInfraction(Infraction infraction) {
         if (infraction == null) return null;
         try {
-            JSONObject payload = infraction.toJson();
+            Gson gson = new Gson();
+            String payload = gson.toJson(infraction);
             String res = sendRequestData("POST", uri + "/infractions/", payload);
-            JSONObject json = new JSONObject(res);
-            return Infraction.fromJson(json);
+            return gson.fromJson(res, Infraction.class);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -241,10 +245,12 @@ public class ApiInteraction {
     public static Infraction updateInfraction(Infraction infraction) {
         if (infraction == null) return null;
         try {
-            JSONObject payload = new JSONObject(infraction.toJson());
+            Gson gson = new Gson();
+            String payload = gson.toJson(infraction);
             String res = sendRequestData("PUT", uri + "/infractions/" + infraction.getId(), payload);
-            JSONObject json = new JSONObject(res);
-            return Infraction.fromJson(json);
+            Infraction updatedInfraction = gson.fromJson(res, Infraction.class);
+            setTimestampFields(updatedInfraction, res);
+            return updatedInfraction;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
