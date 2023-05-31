@@ -8,6 +8,7 @@ import cc.projectnexus.adapters.java.datamodels.Region;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -84,11 +85,11 @@ public class InfractionHandler {
 	 * @return Infraction from Infractions ID.
 	 * @throws IllegalAccessException If the client is not set.
 	 */
-	public static Infraction getInfractionById(long id) throws IllegalAccessException {
+	public static Optional<Infraction> getInfractionById(long id) throws IllegalAccessException {
 		if (getClient() == null) {
 			throw new IllegalAccessException("You must set the client before accessing methods.");
 		}
-		return ApiInteraction.getInfraction(id);
+		return Optional.ofNullable(ApiInteraction.getInfraction(id));
 	}
 
 	/**
