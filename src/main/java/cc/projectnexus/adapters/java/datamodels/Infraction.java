@@ -1,5 +1,6 @@
 package cc.projectnexus.adapters.java.datamodels;
 
+import cc.projectnexus.adapters.java.utils.JavaScriptUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,8 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -68,8 +68,8 @@ public class Infraction {
         infraction.infractionProof = json.optString("proof");
         infraction.executorId = json.optLong("executor");
         infraction.active = json.optBoolean("active");
-        infraction.createdAt = Timestamp.valueOf(json.optString("createdAt"));
-        infraction.updatedAt = Timestamp.valueOf(json.optString("updatedAt"));
+        infraction.createdAt = Timestamp.valueOf(Objects.requireNonNull(JavaScriptUtils.timestampJsToJava(json.optString("createdAt"))));
+        infraction.updatedAt = Timestamp.valueOf(Objects.requireNonNull(JavaScriptUtils.timestampJsToJava(json.optString("updatedAt"))));
 
         return infraction;
     }
