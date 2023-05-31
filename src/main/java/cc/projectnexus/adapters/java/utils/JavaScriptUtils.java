@@ -2,6 +2,7 @@ package cc.projectnexus.adapters.java.utils;
 
 import cc.projectnexus.adapters.java.datamodels.GuildSettings;
 import cc.projectnexus.adapters.java.datamodels.Infraction;
+import cc.projectnexus.adapters.java.datamodels.User;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -44,6 +45,16 @@ public class JavaScriptUtils {
 
 		infraction.setCreatedAt(timestampJsToJava(createdAt));
 		infraction.setUpdatedAt(timestampJsToJava(updatedAt));
+	}
+
+	public static void setTimestampFields(User user, String response) {
+		JsonObject responseJson = new Gson().fromJson(response, JsonObject.class);
+
+		String createdAt = responseJson.get("createdAt").getAsString();
+		String updatedAt = responseJson.get("updatedAt").getAsString();
+
+		user.setCreatedAt(timestampJsToJava(createdAt));
+		user.setUpdatedAt(timestampJsToJava(updatedAt));
 	}
 
 }

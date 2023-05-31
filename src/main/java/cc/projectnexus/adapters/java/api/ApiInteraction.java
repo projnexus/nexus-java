@@ -3,6 +3,7 @@ package cc.projectnexus.adapters.java.api;
 import cc.projectnexus.adapters.java.NexusClient;
 import cc.projectnexus.adapters.java.datamodels.GuildSettings;
 import cc.projectnexus.adapters.java.datamodels.Infraction;
+import cc.projectnexus.adapters.java.datamodels.User;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
@@ -270,4 +271,52 @@ public class ApiInteraction {
         }
     }
 
+    public static User[] getAllUsers() {
+        try {
+            String res = sendRequest("GET", uri + "/users");
+            Gson gson = new Gson();
+
+            JsonObject jsonObject = gson.fromJson(res, JsonObject.class);
+            JsonArray jsonArray = jsonObject.getAsJsonArray("users");
+            if (jsonArray != null) {
+                User[] users = gson.fromJson(jsonArray, User[].class);
+
+                for (User user : users) {
+                    setTimestampFields(user, gson.toJson(user));
+                }
+
+                return users;
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static User getUser(String userId) {
+        if (userId == null) return null;
+        try {
+            Gson gson = new Gson();
+            String res = sendRequest("GET", uri + "/users/" + userId);
+            User user = gson.fromJson(res, User.class);
+            setTimestampFields(user, res);
+            return user;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static boolean deleteUser(User user) {
+        if (user == null) return false;
+        try {
+            String res = sendRequest("DELETE", uri + "/users/" + user.getId());
+            return res.contains("deleted");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

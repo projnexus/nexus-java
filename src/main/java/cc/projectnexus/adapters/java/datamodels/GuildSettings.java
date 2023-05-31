@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GuildSettings {
-    private Long id;
+    private String id;
     private String guildId;
     private boolean autoBan;
     private boolean autoUnban;

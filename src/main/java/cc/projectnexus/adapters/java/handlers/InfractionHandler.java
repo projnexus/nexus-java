@@ -5,10 +5,7 @@ import cc.projectnexus.adapters.java.api.ApiInteraction;
 import cc.projectnexus.adapters.java.datamodels.Infraction;
 import cc.projectnexus.adapters.java.datamodels.Region;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -27,7 +24,7 @@ public class InfractionHandler {
 		if (getClient() == null) {
 			throw new IllegalAccessException("You must set the client before accessing methods.");
 		}
-		return Arrays.asList(ApiInteraction.getAllInfractions());
+		return Arrays.asList(Objects.requireNonNull(ApiInteraction.getAllInfractions()));
 	}
 
 	/**
@@ -40,7 +37,7 @@ public class InfractionHandler {
 		if (getClient() == null) {
 			throw new IllegalAccessException("You must set the client before accessing methods.");
 		}
-		return getAllInfractions().stream().filter(inf -> inf.getUserId() == Long.valueOf(id)).collect(Collectors.toList());
+		return getAllInfractions().stream().filter(inf -> Objects.equals(inf.getUserId(), id)).collect(Collectors.toList());
 	}
 
 	/**

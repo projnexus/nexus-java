@@ -10,8 +10,8 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Infraction {
-    private Long id;
-    private Long userId;
+    private String id;
+    private String userId;
     private Region[] regions;
     private String infractionReason;
     private String infractionProof;
