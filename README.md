@@ -2,6 +2,7 @@
 ![Nexus-Badges](https://media.discordapp.net/attachments/1104529119825371227/1113508062616100955/Badge.png)
 <br>
 Officially supported Java API for Nexus.
+For any questions related to the project, please contact the Lead Developer accordingly.
 
 ## Installation
 
