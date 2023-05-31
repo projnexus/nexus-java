@@ -1,5 +1,6 @@
 package cc.projectnexus.adapters.java.datamodels;
 
+import cc.projectnexus.adapters.java.utils.JavaScriptUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -52,8 +54,16 @@ public class GuildSettings {
         guildSettings.autoBan = json.optBoolean("auto_ban");
         guildSettings.autoUnban = json.optBoolean("auto_unban");
         guildSettings.logsChannel = json.optString("logs_channel");
-        guildSettings.createdAt = Timestamp.valueOf(json.optString("createdAt"));
-        guildSettings.lastUpdated = Timestamp.valueOf(json.optString("updatedAt"));
+        guildSettings.createdAt = Timestamp.valueOf(
+                Objects.requireNonNull(JavaScriptUtils.timestampJsToJava(
+                        json.optString("createdAt")
+                ))
+        );
+        guildSettings.lastUpdated = Timestamp.valueOf(
+                Objects.requireNonNull(JavaScriptUtils.timestampJsToJava(
+                        json.optString("updatedAt")
+                ))
+        );
 
         JSONArray regionsArray = json.optJSONArray("enabled_regions");
         if (regionsArray != null) {
