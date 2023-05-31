@@ -3,6 +3,9 @@ package cc.projectnexus.adapters.java.api;
 import cc.projectnexus.adapters.java.NexusClient;
 import cc.projectnexus.adapters.java.datamodels.GuildSettings;
 import cc.projectnexus.adapters.java.datamodels.Infraction;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
@@ -116,14 +119,19 @@ public class ApiInteraction {
             String res = sendRequest("GET", uri + "/guilds");
             Gson gson = new Gson();
 
-            TypeToken<List<GuildSettings>> token = new TypeToken<List<GuildSettings>>() {};
-            List<GuildSettings> guilds = gson.fromJson(res, token.getType());
+            JsonObject jsonObject = gson.fromJson(res, JsonObject.class);
+            JsonArray jsonArray = jsonObject.getAsJsonArray("guilds");
+            if (jsonArray != null) {
+                GuildSettings[] guilds = gson.fromJson(jsonArray, GuildSettings[].class);
 
-            for (GuildSettings guild : guilds) {
-                setTimestampFields(guild, gson.toJson(guild));
+                for (GuildSettings guild : guilds) {
+                    setTimestampFields(guild, gson.toJson(guild));
+                }
+
+                return guilds;
+            } else {
+                return null;
             }
-
-            return guilds.toArray(new GuildSettings[0]);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -190,14 +198,19 @@ public class ApiInteraction {
             String res = sendRequest("GET", uri + "/infractions");
             Gson gson = new Gson();
 
-            TypeToken<List<Infraction>> token = new TypeToken<List<Infraction>>() {};
-            List<Infraction> infractions = gson.fromJson(res, token.getType());
+            JsonObject jsonObject = gson.fromJson(res, JsonObject.class);
+            JsonArray jsonArray = jsonObject.getAsJsonArray("infractions");
+            if (jsonArray != null) {
+                Infraction[] infractions = gson.fromJson(jsonArray, Infraction[].class);
 
-            for (Infraction infraction : infractions) {
-                setTimestampFields(infraction, gson.toJson(infraction));
+                for (Infraction infraction : infractions) {
+                    setTimestampFields(infraction, gson.toJson(infraction));
+                }
+
+                return infractions;
+            } else {
+                return null;
             }
-
-            return infractions.toArray(new Infraction[0]);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
