@@ -6,7 +6,7 @@
 
     <groupId>cc.projectnexus.adapters.java</groupId>
     <artifactId>nexus-java</artifactId>
-    <version>1.2.1-beta-v1</version>
+    <version>1.2.6-beta-v1</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

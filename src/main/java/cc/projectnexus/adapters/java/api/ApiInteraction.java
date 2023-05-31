@@ -146,7 +146,7 @@ public class ApiInteraction {
     public static GuildSettings createGuild(String guildId) {
         if (guildId == null) return null;
         try {
-            JSONObject payload = new JSONObject("{\"guildId\":" + guildId + "}");
+            JSONObject payload = new JSONObject("{\"guildId\": \"" + guildId + "\"}");
             String res = sendRequestData("POST", uri + "/guilds/", payload);
             JSONObject json = new JSONObject(res);
             return GuildSettings.fromJson(json);
