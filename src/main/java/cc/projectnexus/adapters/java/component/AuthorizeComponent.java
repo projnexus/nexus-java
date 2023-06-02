@@ -15,8 +15,7 @@ public class AuthorizeComponent {
 	 * @see cc.projectnexus.adapters.java.NexusClient instead of handling your authorization yourself.
 	 */
 	public static boolean authorizeToken(String token) {
-		return NexusApi.provideRequest(Method.GET, Route.InfractionRoutes.GET_INFRACTION_COUNT);
-		return true; // TODO: Implement
+		return NexusApi.attempt(token); // TODO: Implement
 	}
 
 }
