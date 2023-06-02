@@ -33,14 +33,25 @@ public class NexusApi {
 		return "";
 	}
 
-	public static boolean attempt(String token) {
+	public static boolean attempt(String token) throws IOException {
+		URL apiUrl = new URL(Route.GuildsRoutes.GET_AMOUNT_COUNT);
+		HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
+		connection.setRequestMethod("GET");
+		connection.setRequestProperty("Authorization", "Bearer " + NexusClient.getInstance().getProperties().getToken());
 
+		int responseCode = connection.getResponseCode();
+		if (responseCode == HttpURLConnection.HTTP_OK) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	private static String provideRequestAsGet(String url) throws IOException {
 		URL apiUrl = new URL(url);
 		HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
 		connection.setRequestMethod("GET");
+		connection.setRequestProperty("Authorization", "Bearer " + NexusClient.getInstance().getProperties().getToken());
 
 		int responseCode = connection.getResponseCode();
 		if (responseCode == HttpURLConnection.HTTP_OK) {
