@@ -37,5 +37,4 @@ public enum Region {
         }
         throw new IllegalArgumentException("Invalid region identifier: " + identifier);
     }
-
 }

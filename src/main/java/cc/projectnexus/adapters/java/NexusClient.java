@@ -1,73 +1,80 @@
 package cc.projectnexus.adapters.java;
 
-import cc.projectnexus.adapters.java.api.ApiInteraction;
+import cc.projectnexus.adapters.java.component.AuthorizeComponent;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public abstract class NexusClient {
-    private static NexusClient instance;
-    private boolean isAuthorized;
-    private String apiKey;
-    private String apiUri;
+	protected static NexusClient instance;
+	protected boolean authorize;
+	protected NexusClientProperties properties;
 
-    private NexusClientProperties properties;
+	/**
+	 * Create a new constructor of NexusClient.
+	 * @param authorize If you want to authorize or not.
+	 * @param properties The properties.
+	 */
+	public NexusClient(boolean authorize, NexusClientProperties properties) {
+		instance = this;
+		this.authorize = authorize;
+		this.properties = properties;
+		authorize();
+	}
 
-    /**
-     * The client constructor that is required.
-     * @param properties The properties object, remember to pass in the URI!
-     */
-    public NexusClient(NexusClientProperties properties) {
-        instance = this;
-        this.properties = properties;
-        System.out.println("Attempting to authorize provided token: " + properties.getToken());
-        this.apiKey = properties.getToken();
-        this.apiUri = "https://projectnexus.cc/api";
+	/**
+	 * Automatically enables authorize and provides the properties object.
+	 * @param properties The properties object.
+	 */
+	public NexusClient(NexusClientProperties properties) {
+		instance = this;
+		this.authorize = true;
+		this.properties = properties;
+		authorize();
+	}
 
-        isAuthorized = ApiInteraction.test();
+	/**
+	 * Create a new constructor of NexusClient.
+	 */
+	public NexusClient() {
+		instance = this;
+		this.authorize = false;
+		this.properties = new NexusClientProperties("", false);
+	}
 
-        if (isAuthorized || !properties.isUseTokenAuthorize()) {
-            if (properties.isDebug()) {
-                boolean test = ApiInteraction.test();
-                if (test) {
-                    onAuthorizeSuccess();
-                    if (properties.isDebug()) {
-                        System.out.println("Connection to API successful.");
-                    }
-                } else {
-                    onAuthorizeFail();
-                    if (properties.isDebug()) {
-                        System.out.println("Connection to API Failed.");
-                    }
-                }
+	/**
+	 * Handle the authorization to the API.
+	 * @return Returning if the authorization worked our not.
+	 */
+	protected boolean authorize() {
+		boolean result = false;
+		if (authorize) {
+			result = AuthorizeComponent.authorizeToken(properties.getToken());
+			if (result) {
+				System.out.println("Authorized Nexus Wrapper.");
+			} else {
+				System.out.println("Could not authorize to Nexus Wrapper.");
+			}
+		}
+		return result;
+	}
 
-                if (!properties.isUseTokenAuthorize()) {
-                    onAuthorizeSuccess();
-                }
-            }
-            boolean test = ApiInteraction.test();
-            if (test) {
-                onAuthorizeFail();
-            } else {
-                onAuthorizeFail();
-            }
-        } else {
-            onAuthorizeFail();
-            if (properties.isDebug()) {
-                System.out.println("Could not authorize NexusClient.");
-            }
-        }
-    }
+	/**
+	 * Get the instance of the Nexus Client object.
+	 * @return Returning the Client instance.
+	 */
+	public static NexusClient getInstance() {
+		if (instance == null) {
+			try {
+				throw new IllegalAccessException("Could not access client as the client isn't set.");
+			} catch (IllegalAccessException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		return instance;
+	}
 
-    public abstract void onAuthorizeSuccess();
-    public abstract void onAuthorizeFail();
-
-    /**
-     * Return a new instance of NexusClient.
-     * @return Return a new instance of NexusClient.
-     */
-    public static NexusClient getNexusInstance() {
-        return instance;
-    }
+	public abstract void authSuccess();
+	public abstract void authFailed();
 }

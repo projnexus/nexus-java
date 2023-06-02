@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class NexusClientProperties {
-    private boolean useTokenAuthorize;
     private String token;
     private boolean debug;
 }
