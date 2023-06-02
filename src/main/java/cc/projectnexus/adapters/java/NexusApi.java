@@ -1,5 +1,6 @@
 package cc.projectnexus.adapters.java;
 
+import cc.projectnexus.adapters.java.exceptions.TokenNotAuthorizedException;
 import cc.projectnexus.adapters.java.route.Method;
 import cc.projectnexus.adapters.java.route.Route;
 
@@ -14,7 +15,7 @@ import java.net.URL;
 public class NexusApi {
 	public static String API_URL = "https://api.projectnexus.cc/";
 
-	public static String provideRequest(Method method, String url) {
+	public static String provideRequest(Method method, String url) throws TokenNotAuthorizedException {
 		switch (method) {
 			case GET -> {
 				try {
