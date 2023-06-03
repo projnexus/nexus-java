@@ -53,6 +53,8 @@ public class GuildComponent {
 			throw new RuntimeException(e);
 		}
 
+		System.out.println(guildSettingsJson);
+
 		try {
 			String response = NexusApi.provideRequest(Method.POST, guildSettingsJson, Route.GuildsRoutes.POST_CREATE_NEW);
 			System.out.println(response);
