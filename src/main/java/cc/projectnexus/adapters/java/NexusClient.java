@@ -50,11 +50,13 @@ public abstract class NexusClient {
 	protected boolean authorize() {
 		boolean result = false;
 		if (authorize) {
-			result = AuthorizeComponent.authorizeToken(properties.getToken());
+			result = AuthorizeComponent.authorizeToken();
 			if (result) {
 				System.out.println("Authorized Nexus Wrapper.");
+				authSuccess();
 			} else {
 				System.out.println("Could not authorize to Nexus Wrapper.");
+				authFailed();
 			}
 		}
 		return result;

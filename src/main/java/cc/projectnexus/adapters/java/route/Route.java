@@ -35,7 +35,7 @@ public class Route {
 	public static class GuildsRoutes {
 		public static String GET_AMOUNT_COUNT = API_URL + "guilds/count";
 		public static String GET_DATA_SINGLE = API_URL + "guilds/";
-		public static String POST_CREATE_NEW = API_URL + "guild";
+		public static String POST_CREATE_NEW = API_URL + "guild/";
 		public static String DELETE_GUILD = API_URL + "guild/";
 		public static String PUT_UPDATE_GUILD = API_URL + "guild/";
 	}

@@ -1,24 +1,24 @@
 package cc.projectnexus.adapters.java.component;
 
 import cc.projectnexus.adapters.java.NexusApi;
-import cc.projectnexus.adapters.java.route.Method;
-import cc.projectnexus.adapters.java.route.Route;
+import cc.projectnexus.adapters.java.NexusClient;
 
 import java.io.IOException;
 
+/**
+ * Handle the authorization of API keys.
+ */
 public class AuthorizeComponent {
-
-	private static String BASE_API = "https://api.projectnexus.cc/";
 
 	/**
 	 * Authorize the token in the API.
-	 * @param token The token to authorize.
 	 * @return Rather or not the authorization was completed.
 	 * @see cc.projectnexus.adapters.java.NexusClient instead of handling your authorization yourself.
 	 */
-	public static boolean authorizeToken(String token) {
+	public static boolean authorizeToken() {
+		final String token = NexusClient.getInstance().getProperties().getToken();
 		try {
-			return NexusApi.attempt(token); // TODO: Implement
+			return NexusApi.attempt(token);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
