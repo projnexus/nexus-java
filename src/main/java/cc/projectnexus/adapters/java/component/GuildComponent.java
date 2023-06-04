@@ -2,6 +2,8 @@ package cc.projectnexus.adapters.java.component;
 
 import cc.projectnexus.adapters.java.adapter.JsonAdapter;
 import cc.projectnexus.adapters.java.datamodels.GuildSettings;
+import cc.projectnexus.adapters.java.datamodels.requests.create.GuildCreateRequest;
+import cc.projectnexus.adapters.java.datamodels.requests.patch.GuildPatchRequest;
 import cc.projectnexus.adapters.java.exceptions.TokenNotAuthorizedException;
 import cc.projectnexus.adapters.java.request.NexusRequest;
 import cc.projectnexus.adapters.java.request.RequestResponse;
@@ -56,9 +58,9 @@ public class GuildComponent {
 		}
 	}
 
-	public static RequestResponse addGuildSettings(GuildSettings settings) {
+	public static RequestResponse addGuildSettings(GuildCreateRequest req) {
 		JsonAdapter adapter = new JsonAdapter();
-		String json = adapter.toJson(settings);
+		String json = adapter.toJson(req);
 
 		NexusRequest request = new NexusRequest(Method.POST, "https://api.projectnexus.cc/guild", json);
 		RequestResponse res = request.execute();
@@ -72,6 +74,14 @@ public class GuildComponent {
 		return res;
 	}
 
-	// TODO: Patch request (needs Voxi)
+	public static RequestResponse patchGuild(String id, GuildPatchRequest req) {
+		JsonAdapter adapter = new JsonAdapter();
+		String json = adapter.toJson(req);
+
+		NexusRequest request = new NexusRequest(Method.PATCH, "https://api.projectnexus.cc/guild/" + id, json);
+		RequestResponse res = request.execute();
+
+		return res;
+	}
 
 }

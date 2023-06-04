@@ -1,8 +1,8 @@
 package cc.projectnexus.adapters.java.component;
 
 import cc.projectnexus.adapters.java.adapter.JsonAdapter;
-import cc.projectnexus.adapters.java.datamodels.GuildSettings;
 import cc.projectnexus.adapters.java.datamodels.Infraction;
+import cc.projectnexus.adapters.java.datamodels.requests.create.InfractionCreateRequest;
 import cc.projectnexus.adapters.java.request.NexusRequest;
 import cc.projectnexus.adapters.java.request.RequestResponse;
 import cc.projectnexus.adapters.java.route.Method;
@@ -59,9 +59,9 @@ public class InfractionComponent {
 		return infractionList;
 	}
 
-	public static RequestResponse addInfraction(Infraction infraction) {
+	public static RequestResponse addInfraction(InfractionCreateRequest requestBody) {
 		JsonAdapter jsonAdapter = new JsonAdapter();
-		String json = jsonAdapter.toJson(infraction);
+		String json = jsonAdapter.toJson(requestBody);
 
 		System.out.println(json);
 
@@ -70,5 +70,6 @@ public class InfractionComponent {
 
 		return res;
 	}
+
 
 }
