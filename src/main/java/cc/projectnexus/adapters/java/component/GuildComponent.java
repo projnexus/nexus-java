@@ -40,11 +40,13 @@ public class GuildComponent {
 
 	/**
 	 * Create a new guild in the database.
-	 * @param data The data to pass
+	 * @param guildId The guildId to pass into JsonObject
 	 * @return The created guild.
 	 */
-	public static GuildSettings createGuild(JsonObject data) {
-		NexusRequest request = new NexusRequest(Method.POST, Route.GuildsRoutes.POST_CREATE_NEW, data.toString());
+	public static GuildSettings createGuild(String guildId) {
+		JsonObject object = new JsonObject();
+		object.addProperty("guildId", guildId);
+		NexusRequest request = new NexusRequest(Method.POST, Route.GuildsRoutes.POST_CREATE_NEW, object.toString());
 		RequestResponse response = request.execute();
 		if (response.getResponseCode() != 201) throw new RuntimeException("Something went wrong while creating the guild.");
 		return new Gson().fromJson(response.getResponse(), GuildSettings.class);
