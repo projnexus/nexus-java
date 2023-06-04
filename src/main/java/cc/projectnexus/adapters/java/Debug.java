@@ -1,9 +1,14 @@
 package cc.projectnexus.adapters.java;
 
+import cc.projectnexus.adapters.java.adapter.JsonAdapter;
 import cc.projectnexus.adapters.java.client.NexusClient;
 import cc.projectnexus.adapters.java.client.NexusClientProperties;
+import cc.projectnexus.adapters.java.component.GuildComponent;
+import cc.projectnexus.adapters.java.component.InfractionComponent;
 import cc.projectnexus.adapters.java.datamodels.GuildSettings;
+import cc.projectnexus.adapters.java.datamodels.Infraction;
 import cc.projectnexus.adapters.java.datamodels.Region;
+import cc.projectnexus.adapters.java.datamodels.requests.create.InfractionCreateRequest;
 import cc.projectnexus.adapters.java.request.NexusRequest;
 import cc.projectnexus.adapters.java.request.RequestResponse;
 import cc.projectnexus.adapters.java.route.Method;
@@ -28,20 +33,9 @@ public class Debug extends NexusClient {
 
 	@Override
 	public void authSuccess() {
-		GuildSettings publish = new GuildSettings("1078849224067776552", "1078849224067776552", true, true, "", Timestamp.from(Instant.now()), Timestamp.from(Instant.now()), new Region[]{Region.EUROPE});
-
-		JsonBindingProvider provider = new JsonBindingProvider();
-		JsonbConfig config = new JsonbConfig();
-		Jsonb jsonb = provider.create().withConfig(config).build();
-
-		String json = jsonb.toJson(publish, GuildSettings.class);
-
-		GuildSettings settings = jsonb.fromJson(json, GuildSettings.class);
-
-		NexusRequest request = new NexusRequest(Method.POST, "https://api.projectnexus.cc/guild", json);
-		RequestResponse response = request.execute();
-
-		System.out.println(response.getResponse() + " | " + response.getResponseCode());
+		InfractionCreateRequest request = InfractionCreateRequest.from("1234", new String[]{"EUROPE"}, "Hey", "NO!", 1234L);
+		InfractionComponent.addInfraction(request);
+		InfractionComponent.getAllInfractions();
 	}
 
 	@Override

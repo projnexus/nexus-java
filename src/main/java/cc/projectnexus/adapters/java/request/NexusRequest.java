@@ -1,6 +1,7 @@
 package cc.projectnexus.adapters.java.request;
 
 import cc.projectnexus.adapters.java.client.NexusClient;
+import cc.projectnexus.adapters.java.http.HttpResponse;
 import cc.projectnexus.adapters.java.route.Method;
 import lombok.Getter;
 import lombok.Setter;
@@ -68,7 +69,10 @@ public class NexusRequest {
 
 			in.close();
 		} else {
-			System.out.println("Failed to submit a new Nexus Request. Response-Code: " + responseCode);
+			System.out.println("Failed to submit a new Nexus Request.");
+			System.out.println("-- Source: " + url);
+			System.out.println("-- Received Response: " + responseCode + " / " + HttpResponse.getByStatusCode(responseCode).displayName());
+			System.out.println("End of failure message.");
 		}
 
 		connection.disconnect();
