@@ -12,8 +12,8 @@ public class Route {
 		public static String GET_USER_AMOUNT = API_URL + "users/count";
 		public static String GET_ALL_USERS = API_URL + "users";
 		public static String GET_DATA_SINGLE = API_URL + "user";
-		public static String DELETE_USER = API_URL + "user";
-		public static String UPDATE_USER = API_URL + "user";
+		public static String DELETE_USER = API_URL + "user/";
+		public static String UPDATE_USER = API_URL + "user/";
 	}
 
 	public static class InfractionRoutes {
@@ -34,7 +34,7 @@ public class Route {
 
 	public static class GuildsRoutes {
 		public static String GET_AMOUNT_COUNT = API_URL + "guilds/count";
-		public static String GET_DATA_SINGLE = API_URL + "guilds/";
+		public static String GET_DATA_SINGLE = API_URL + "guild/";
 		public static String POST_CREATE_NEW = API_URL + "guild/";
 		public static String DELETE_GUILD = API_URL + "guild/";
 		public static String PUT_UPDATE_GUILD = API_URL + "guild/";
