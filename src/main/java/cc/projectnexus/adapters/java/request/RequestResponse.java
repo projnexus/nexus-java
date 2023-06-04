@@ -1,4 +1,4 @@
-package cc.projectnexus.adapters.java;
+package cc.projectnexus.adapters.java.request;
 
 import lombok.Data;
 

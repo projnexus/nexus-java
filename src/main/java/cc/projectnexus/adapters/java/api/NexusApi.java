@@ -1,6 +1,8 @@
-package cc.projectnexus.adapters.java;
+package cc.projectnexus.adapters.java.api;
 
+import cc.projectnexus.adapters.java.client.NexusClient;
 import cc.projectnexus.adapters.java.exceptions.TokenNotAuthorizedException;
+import cc.projectnexus.adapters.java.request.NexusRequester;
 import cc.projectnexus.adapters.java.route.Method;
 import cc.projectnexus.adapters.java.route.Route;
 

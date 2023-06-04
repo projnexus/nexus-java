@@ -1,7 +1,6 @@
 package cc.projectnexus.adapters.java.component;
 
-import cc.projectnexus.adapters.java.NexusApi;
-import cc.projectnexus.adapters.java.NexusRequester;
+import cc.projectnexus.adapters.java.api.NexusApi;
 import cc.projectnexus.adapters.java.datamodels.GuildSettings;
 import cc.projectnexus.adapters.java.exceptions.TokenNotAuthorizedException;
 import cc.projectnexus.adapters.java.route.Method;

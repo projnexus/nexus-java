@@ -1,7 +1,7 @@
 package cc.projectnexus.adapters.java.component;
 
-import cc.projectnexus.adapters.java.NexusApi;
-import cc.projectnexus.adapters.java.NexusClient;
+import cc.projectnexus.adapters.java.api.NexusApi;
+import cc.projectnexus.adapters.java.client.NexusClient;
 
 import java.io.IOException;
 
@@ -13,7 +13,7 @@ public class AuthorizeComponent {
 	/**
 	 * Authorize the token in the API.
 	 * @return Rather or not the authorization was completed.
-	 * @see cc.projectnexus.adapters.java.NexusClient instead of handling your authorization yourself.
+	 * @see NexusClient instead of handling your authorization yourself.
 	 */
 	public static boolean authorizeToken() {
 		final String token = NexusClient.getInstance().getProperties().getToken();

@@ -1,4 +1,4 @@
-package cc.projectnexus.adapters.java;
+package cc.projectnexus.adapters.java.client;
 
 import cc.projectnexus.adapters.java.component.AuthorizeComponent;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package cc.projectnexus.adapters.java.route;
 
-import cc.projectnexus.adapters.java.NexusApi;
+import cc.projectnexus.adapters.java.api.NexusApi;
 
 /**
  * All supported routes by Nexus Project.

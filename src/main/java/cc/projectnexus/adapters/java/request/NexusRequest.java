@@ -1,5 +1,6 @@
-package cc.projectnexus.adapters.java;
+package cc.projectnexus.adapters.java.request;
 
+import cc.projectnexus.adapters.java.client.NexusClient;
 import cc.projectnexus.adapters.java.route.Method;
 import lombok.Getter;
 import lombok.Setter;
@@ -57,7 +58,7 @@ public class NexusRequest {
 		int responseCode = connection.getResponseCode();
 		StringBuilder response = new StringBuilder();
 
-		if (responseCode == HttpURLConnection.HTTP_OK) {
+		if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED) {
 			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			String inputLine;
 

@@ -1,28 +1,29 @@
 package cc.projectnexus.adapters.java;
 
+import cc.projectnexus.adapters.java.client.NexusClient;
+import cc.projectnexus.adapters.java.client.NexusClientProperties;
 import cc.projectnexus.adapters.java.datamodels.GuildSettings;
 import cc.projectnexus.adapters.java.datamodels.Region;
+import cc.projectnexus.adapters.java.request.NexusRequest;
+import cc.projectnexus.adapters.java.request.RequestResponse;
 import cc.projectnexus.adapters.java.route.Method;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbConfig;
 import org.eclipse.yasson.JsonBindingProvider;
 
-import javax.json.bind.JsonbBuilder;
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.Objects;
 
-public class Main extends NexusClient {
+public class Debug extends NexusClient {
 	private String token = "BOT 2OAln4KjAoeO9KfFPaEcijZ2YsBotqccnGEMz18H2g6p175Cevm2Ujp0DOzwab6L";
 
-	public Main() {
+	public Debug() {
 		super(true, new NexusClientProperties("BOT 2OAln4KjAoeO9KfFPaEcijZ2YsBotqccnGEMz18H2g6p175Cevm2Ujp0DOzwab6L", true));
 
 	}
 
 	public static void main(String[] args) {
-		new Main();
+		new Debug();
 	}
 
 	@Override
