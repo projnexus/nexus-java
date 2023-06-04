@@ -11,7 +11,6 @@ import com.google.gson.*;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class UserComponent {
 
@@ -19,7 +18,6 @@ public class UserComponent {
      * Returns the amount of registered users that have a User data model.
      *
      * @return The amount of registered users.
-     * @throws TokenNotAuthorizedException If the token is not properly authorized, or is missing something.
      */
     public static int getAmountOfUsers() {
         NexusRequest request = new NexusRequest(Method.GET, Route.UserRoutes.GET_USER_AMOUNT);
@@ -31,7 +29,6 @@ public class UserComponent {
     /**
      * Get all the users that are registered in the database.
      * @return An array of users.
-     * @throws TokenNotAuthorizedException If the token is not properly authorized, or is missing something.
      */
     public static User[] getAllUsers() {
         NexusRequest request = new NexusRequest(Method.GET, Route.UserRoutes.GET_ALL_USERS);
@@ -45,7 +42,6 @@ public class UserComponent {
      * @param id
      * @param identifiers
      * @return The user that was found.
-     * @throws TokenNotAuthorizedException If the token is not properly authorized, or is missing something.
      */
     public static User getUser(String id, String[] identifiers) {
         List<User> users = Arrays.stream(getAllUsers()).toList();
@@ -63,6 +59,31 @@ public class UserComponent {
         }
 
         return null; 
+    }
+
+    /**
+     * Delete a user from the database.
+     * @param id The ID of the user.
+     * @return If the user was deleted successfully.
+     */
+    public static boolean deleteUser(String id) {
+        NexusRequest request = new NexusRequest(Method.DELETE, Route.UserRoutes.DELETE_USER + id);
+        RequestResponse response = request.execute();
+        if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while deleting the user.");
+        return true;
+    }
+
+    /**
+     * Update a user in the database.
+     * @param user The user that should be updated.
+     * @return The updated user.
+     */
+    public static User updateUser(User user) {
+        // convert the user object to json
+        NexusRequest request = new NexusRequest(Method.PUT, Route.UserRoutes.UPDATE_USER + user.getId(), new Gson().toJson(user));
+        RequestResponse response = request.execute();
+        if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while updating the user.");
+        return getUser(user.getId(), null);
     }
 
 }
