@@ -1,7 +1,6 @@
 package cc.projectnexus.adapters.java.component;
 
 import cc.projectnexus.adapters.java.datamodels.Infraction;
-import cc.projectnexus.adapters.java.datamodels.User;
 import cc.projectnexus.adapters.java.request.NexusRequest;
 import cc.projectnexus.adapters.java.request.RequestResponse;
 import cc.projectnexus.adapters.java.route.Method;
