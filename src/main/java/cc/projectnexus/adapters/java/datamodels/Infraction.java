@@ -21,13 +21,13 @@ public class Infraction {
     private Region[] regions;
 
     @JsonbProperty("reason")
-    private String infractionReason;
+    private String reason;
 
     @JsonbProperty("proof")
-    private String infractionProof;
+    private String proof;
 
     @JsonbProperty("executor")
-    private Long executorId;
+    private Long executor;
 
     @JsonbProperty("active")
     private Boolean active;
