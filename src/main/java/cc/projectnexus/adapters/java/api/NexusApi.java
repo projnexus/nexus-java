@@ -31,7 +31,7 @@ public class NexusApi {
 					throw new RuntimeException(e);
 				}
 			}
-			case PATCH -> {
+			case PUT -> {
 				try {
 					NexusRequester.sendPatchRequest(url, data, NexusClient.getInstance().getProperties().getToken());
 				} catch (IOException e) {
