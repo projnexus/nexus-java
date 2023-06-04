@@ -51,7 +51,7 @@ public class GuildComponent {
 	public static GuildSettings createGuild(JsonObject data) {
 		NexusRequest request = new NexusRequest(Method.POST, Route.GuildsRoutes.POST_CREATE_NEW, data.toString());
 		RequestResponse response = request.execute();
-		if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while creating the guild.");
+		if (response.getResponseCode() != 201) throw new RuntimeException("Something went wrong while creating the guild.");
 		return new Gson().fromJson(response.getResponse(), GuildSettings.class);
 	}
 
@@ -66,6 +66,8 @@ public class GuildComponent {
 		if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while deleting the guild.");
 		return true;
 	}
+
+	//////! Needs testing !//////
 
 	/**
 	 * Update a guild in the database
