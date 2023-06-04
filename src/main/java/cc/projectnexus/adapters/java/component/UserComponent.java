@@ -1,7 +1,6 @@
 package cc.projectnexus.adapters.java.component;
 
 import cc.projectnexus.adapters.java.datamodels.User;
-import cc.projectnexus.adapters.java.exceptions.TokenNotAuthorizedException;
 import cc.projectnexus.adapters.java.route.Method;
 import cc.projectnexus.adapters.java.route.Route;
 import cc.projectnexus.adapters.java.request.NexusRequest;
