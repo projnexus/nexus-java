@@ -8,6 +8,11 @@ import cc.projectnexus.adapters.java.request.NexusRequest;
 import cc.projectnexus.adapters.java.request.RequestResponse;
 import com.google.gson.*;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Stream;
+
 public class UserComponent {
 
     /**
@@ -43,22 +48,21 @@ public class UserComponent {
      * @throws TokenNotAuthorizedException If the token is not properly authorized, or is missing something.
      */
     public static User getUser(String id, String[] identifiers) {
-        if (id == null) {
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.add("identifiers", new Gson().toJsonTree(identifiers));
-            NexusRequest request = new NexusRequest(Method.GET, Route.UserRoutes.GET_DATA_SINGLE, jsonObject.toString());
-            RequestResponse response = request.execute();
-            if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while getting the user.");
-            return new Gson().fromJson(response.getResponse(), User.class);
-        } else {
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("id", id);
-            NexusRequest request = new NexusRequest(Method.GET, Route.UserRoutes.GET_DATA_SINGLE, jsonObject.toString());
-            RequestResponse response = request.execute();
-            System.out.println(response.getResponse());
-            if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while getting the user.");
-            return new Gson().fromJson(response.getResponse(), User.class);
+        List<User> users = Arrays.stream(getAllUsers()).toList();
+
+        if (id != null) {
+            return users.stream()
+                    .filter(user -> user.getId().equalsIgnoreCase(id))
+                    .findAny()
+                    .orElse(null);
+        } else if (identifiers != null) {
+            return users.stream()
+                    .filter(user -> new HashSet<>(Arrays.asList(user.getIdentifiers())).containsAll(Arrays.asList(identifiers)))
+                    .findAny()
+                    .orElse(null);
         }
+
+        return null; 
     }
 
 }
