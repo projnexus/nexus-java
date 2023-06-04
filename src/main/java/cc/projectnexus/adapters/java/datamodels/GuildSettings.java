@@ -1,23 +1,40 @@
 package cc.projectnexus.adapters.java.datamodels;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import javax.json.bind.annotation.JsonbProperty;
 import java.sql.Timestamp;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class GuildSettings {
+    @JsonbProperty("id")
     private String id;
+
+    @JsonbProperty("guildId")
     private String guildId;
+
+    @JsonbProperty("auto_ban")
     private boolean autoBan;
+
+    @JsonbProperty("auto_unban")
     private boolean autoUnban;
+
+    @JsonbProperty("logs_channel")
     private String logsChannel;
+
+    @JsonbProperty("createdAt")
     private Timestamp createdAt;
+
+    @JsonbProperty("updatedAt")
     private Timestamp lastUpdated;
+
+    @JsonbProperty("enabled_regions")
     private Region[] enabledRegions;
+
+    public GuildSettings() {
+
+    }
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
