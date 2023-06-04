@@ -6,6 +6,6 @@ package cc.projectnexus.adapters.java.route;
 public enum Method {
 	POST,
 	GET,
-	PATCH,
+	PUT,
 	DELETE;
 }
