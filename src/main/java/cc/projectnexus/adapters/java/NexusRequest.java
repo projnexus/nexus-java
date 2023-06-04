@@ -19,7 +19,7 @@ public class NexusRequest {
 	private String data;
 
 	private boolean hasData;
-	private String value;
+	private RequestResponse value;
 
 	public NexusRequest(Method method, String url, String data) {
 		this.method = method;
