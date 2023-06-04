@@ -1,6 +1,5 @@
 package cc.projectnexus.adapters.java.datamodels;
 
-import jakarta.json.bind.annotation.JsonbProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,31 +10,14 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Infraction {
-    @JsonbProperty("id")
     private String id;
-
-    @JsonbProperty("userId")
     private String userId;
-
-    @JsonbProperty("regions")
     private Region[] regions;
-
-    @JsonbProperty("reason")
     private String reason;
-
-    @JsonbProperty("proof")
     private String proof;
-
-    @JsonbProperty("executor")
     private Long executor;
-
-    @JsonbProperty("active")
     private Boolean active;
-
-    @JsonbProperty("createdAt")
     private Timestamp createdAt;
-
-    @JsonbProperty("updatedAt")
     private Timestamp updatedAt;
 
     public void setCreatedAt(Timestamp createdAt) {
