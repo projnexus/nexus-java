@@ -18,9 +18,9 @@ public class InfractionCreateRequest {
 	private String proof;
 
 	@JsonbProperty("executor")
-	private String executor;
+	private long executor;
 
-	public static InfractionCreateRequest from(String[] identifiers, String[] regions, String reason, String proof, String executor) {
+	public static InfractionCreateRequest from(String[] identifiers, String[] regions, String reason, String proof, long executor) {
 		InfractionCreateRequest request = new InfractionCreateRequest();
 		request.setIdentifiers(identifiers);
 		request.setRegions(regions);
@@ -30,7 +30,7 @@ public class InfractionCreateRequest {
 		return new InfractionCreateRequest();
 	}
 
-	public static InfractionCreateRequest from(String id, String[] regions, String reason, String proof, String executor) {
+	public static InfractionCreateRequest from(String id, String[] regions, String reason, String proof, long executor) {
 		return from(new String[]{id}, regions, reason, proof, executor);
 	}
 }

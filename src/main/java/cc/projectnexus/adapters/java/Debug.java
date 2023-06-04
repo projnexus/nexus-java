@@ -8,6 +8,7 @@ import cc.projectnexus.adapters.java.component.InfractionComponent;
 import cc.projectnexus.adapters.java.datamodels.GuildSettings;
 import cc.projectnexus.adapters.java.datamodels.Infraction;
 import cc.projectnexus.adapters.java.datamodels.Region;
+import cc.projectnexus.adapters.java.datamodels.requests.create.InfractionCreateRequest;
 import cc.projectnexus.adapters.java.request.NexusRequest;
 import cc.projectnexus.adapters.java.request.RequestResponse;
 import cc.projectnexus.adapters.java.route.Method;
@@ -32,15 +33,8 @@ public class Debug extends NexusClient {
 
 	@Override
 	public void authSuccess() {
-		Infraction create = new Infraction();
-		create.setUserId("1234");
-		create.setExecutorId(444L);
-		create.setInfractionReason("Lol");
-		create.setInfractionProof("Lol");
-		create.setRegions(new Region[]{Region.EUROPE});
-
-		InfractionComponent.addInfraction(create);
-
+		InfractionCreateRequest request = InfractionCreateRequest.from("1234", new String[]{"EUROPE"}, "Hey", "NO!", 1234L);
+		InfractionComponent.addInfraction(request);
 		InfractionComponent.getAllInfractions();
 	}
 
