@@ -2,6 +2,7 @@ package cc.projectnexus.adapters.java;
 
 import cc.projectnexus.adapters.java.datamodels.GuildSettings;
 import cc.projectnexus.adapters.java.datamodels.Region;
+import cc.projectnexus.adapters.java.route.Method;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbConfig;
 import org.eclipse.yasson.JsonBindingProvider;
@@ -34,12 +35,10 @@ public class Main extends NexusClient {
 		String json = jsonb.toJson(publish, GuildSettings.class);
 
 		GuildSettings settings = jsonb.fromJson(json, GuildSettings.class);
-		try {
-			NexusRequester.sendPostRequest("https://api.projectnexus.cc/guild", json, "BOT 2OAln4KjAoeO9KfFPaEcijZ2YsBotqccnGEMz18H2g6p175Cevm2Ujp0DOzwab6L");
-			System.out.println(json);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+
+		NexusRequest request = new NexusRequest(Method.POST, "https://api.projectnexus.cc/guild", json);
+		RequestResponse response = request.execute();
+		System.out.println(request.getData());
 	}
 
 	@Override
