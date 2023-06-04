@@ -1,13 +1,12 @@
 package cc.projectnexus.adapters.java;
 
-import cc.projectnexus.adapters.java.component.GuildComponent;
 import cc.projectnexus.adapters.java.datamodels.GuildSettings;
 import cc.projectnexus.adapters.java.datamodels.Region;
-import cc.projectnexus.adapters.java.exceptions.TokenNotAuthorizedException;
-import cc.projectnexus.adapters.java.route.Route;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbConfig;
+import org.eclipse.yasson.JsonBindingProvider;
 
+import javax.json.bind.JsonbBuilder;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -28,17 +27,14 @@ public class Main extends NexusClient {
 	public void authSuccess() {
 		GuildSettings publish = new GuildSettings("1078849224067776552", "1078849224067776552", true, true, "", Timestamp.from(Instant.now()), Timestamp.from(Instant.now()), new Region[]{Region.EUROPE});
 
-		ObjectMapper mapper = new ObjectMapper();
-		String guildJson;
-		try {
-			guildJson = mapper.writeValueAsString(publish);
-		} catch (JsonProcessingException e) {
-			throw new RuntimeException(e);
-		}
+		JsonBindingProvider provider = new JsonBindingProvider();
+		jakarta.json.bind.JsonbConfig config = new JsonbConfig();
+		Jsonb jsonb = provider.create().withConfig(config).build();
 
+		String json = jsonb.toJson(publish, GuildSettings.class);
 		try {
-			NexusRequester.sendPostRequest("https://api.projectnexus.cc/guild", guildJson, getInstance().getProperties().getToken());
-			System.out.println(guildJson);
+			NexusRequester.sendPostRequest("https://api.projectnexus.cc/guild", json, getInstance().getProperties().getToken());
+			System.out.println(json);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
