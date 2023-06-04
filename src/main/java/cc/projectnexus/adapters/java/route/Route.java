@@ -11,9 +11,9 @@ public class Route {
 	public static class UserRoutes {
 		public static String GET_USER_AMOUNT = API_URL + "users/count";
 		public static String GET_ALL_USERS = API_URL + "users";
-		public static String GET_DATA_SINGLE = API_URL + "user/";
-		public static String DELETE_USER = API_URL + "user/";
-		public static String UPDATE_USER = API_URL + "user/";
+		public static String GET_DATA_SINGLE = API_URL + "user";
+		public static String DELETE_USER = API_URL + "user";
+		public static String UPDATE_USER = API_URL + "user";
 	}
 
 	public static class InfractionRoutes {

@@ -5,6 +5,7 @@ import cc.projectnexus.adapters.java.client.NexusClient;
 import cc.projectnexus.adapters.java.client.NexusClientProperties;
 import cc.projectnexus.adapters.java.component.GuildComponent;
 import cc.projectnexus.adapters.java.component.InfractionComponent;
+import cc.projectnexus.adapters.java.component.UserComponent;
 import cc.projectnexus.adapters.java.datamodels.GuildSettings;
 import cc.projectnexus.adapters.java.datamodels.Infraction;
 import cc.projectnexus.adapters.java.datamodels.Region;
@@ -16,8 +17,10 @@ import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbConfig;
 import org.eclipse.yasson.JsonBindingProvider;
 
+import java.sql.Array;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Arrays;
 
 public class Debug extends NexusClient {
 	private String token = "BOT 2OAln4KjAoeO9KfFPaEcijZ2YsBotqccnGEMz18H2g6p175Cevm2Ujp0DOzwab6L";
@@ -33,9 +36,7 @@ public class Debug extends NexusClient {
 
 	@Override
 	public void authSuccess() {
-		InfractionCreateRequest request = InfractionCreateRequest.from("1234", new String[]{"EUROPE"}, "Hey", "NO!", 1234L);
-		InfractionComponent.addInfraction(request);
-		InfractionComponent.getAllInfractions();
+		System.out.println(UserComponent.getUser("eb18aac9-7cd0-483e-8c91-939eaba34e98", null));
 	}
 
 	@Override
