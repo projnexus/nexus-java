@@ -1,13 +1,23 @@
 package cc.projectnexus.adapters.java.datamodels.requests.create;
 
+import jakarta.json.bind.annotation.JsonbProperty;
 import lombok.Data;
 
 @Data
 public class InfractionCreateRequest {
+	@JsonbProperty("identifiers")
 	private String[] identifiers;
+
+	@JsonbProperty("regions")
 	private String[] regions;
+
+	@JsonbProperty("reason")
 	private String reason;
+
+	@JsonbProperty("proof")
 	private String proof;
+
+	@JsonbProperty("executor")
 	private String executor;
 
 	public static InfractionCreateRequest from(String[] identifiers, String[] regions, String reason, String proof, String executor) {
