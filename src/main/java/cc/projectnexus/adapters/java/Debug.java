@@ -8,6 +8,7 @@ import cc.projectnexus.adapters.java.component.InfractionComponent;
 import java.util.Arrays;
 import java.util.List;
 
+import cc.projectnexus.adapters.java.datamodels.GuildSettings;
 import cc.projectnexus.adapters.java.datamodels.Infraction;
 import cc.projectnexus.adapters.java.datamodels.Region;
 import com.google.gson.*;
@@ -45,9 +46,11 @@ public class Debug extends NexusClient {
 //		object.add("regions", regions);
 //		object.add("identifiers", identifiers);
 
-		// create a new infraction
-//		JsonObject guildSettings = new JsonObject();
-//		guildSettings.addProperty("id", "1");
+
+		// create a new guild with GuildComponent
+		System.out.println(GuildComponent.deleteGuild("12"));
+
+
 
 
 	}
