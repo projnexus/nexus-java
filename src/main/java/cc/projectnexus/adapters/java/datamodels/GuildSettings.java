@@ -29,7 +29,7 @@ public class GuildSettings {
     @JsonbProperty("updatedAt")
     private Timestamp lastUpdated;
 
-    @JsonbProperty("enabled_regions")
+    @JsonbProperty("enabledRegions")
     private Region[] enabledRegions;
 
     public GuildSettings() {

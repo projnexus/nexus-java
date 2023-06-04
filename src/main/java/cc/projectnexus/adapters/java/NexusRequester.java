@@ -64,6 +64,10 @@ public class NexusRequester {
 			}
 
 			in.close();
+		} else {
+			System.out.println("Error - Could not send request:");
+			System.out.println(response);
+			System.out.println(responseCode);
 		}
 
 		connection.disconnect();

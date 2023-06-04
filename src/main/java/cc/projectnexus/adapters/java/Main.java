@@ -32,8 +32,10 @@ public class Main extends NexusClient {
 		Jsonb jsonb = provider.create().withConfig(config).build();
 
 		String json = jsonb.toJson(publish, GuildSettings.class);
+
+		GuildSettings settings = jsonb.fromJson(json, GuildSettings.class);
 		try {
-			NexusRequester.sendPostRequest("https://api.projectnexus.cc/guild", json, getInstance().getProperties().getToken());
+			NexusRequester.sendPostRequest("https://api.projectnexus.cc/guild", json, "BOT 2OAln4KjAoeO9KfFPaEcijZ2YsBotqccnGEMz18H2g6p175Cevm2Ujp0DOzwab6L");
 			System.out.println(json);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
