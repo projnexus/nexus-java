@@ -72,13 +72,14 @@ public class UserComponent {
         return true;
     }
 
+    //////! Needs testing !//////
+
     /**
      * Update a user in the database.
      * @param user The user that should be updated.
      * @return The updated user.
      */
     public static User updateUser(User user) {
-        // convert the user object to json
         NexusRequest request = new NexusRequest(Method.PUT, Route.UserRoutes.UPDATE_USER + user.getId(), new Gson().toJson(user));
         RequestResponse response = request.execute();
         if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while updating the user.");

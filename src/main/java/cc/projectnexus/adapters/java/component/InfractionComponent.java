@@ -84,6 +84,8 @@ public class InfractionComponent {
 		return true;
 	}
 
+	//////! Needs testing !//////
+
 	/**
 	 * Update an infraction in the database
 	 * @param infraction The infraction to update.
