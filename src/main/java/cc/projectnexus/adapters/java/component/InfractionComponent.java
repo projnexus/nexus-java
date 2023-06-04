@@ -1,13 +1,12 @@
 package cc.projectnexus.adapters.java.component;
 
-import cc.projectnexus.adapters.java.adapter.JsonAdapter;
 import cc.projectnexus.adapters.java.datamodels.Infraction;
-import cc.projectnexus.adapters.java.datamodels.requests.create.InfractionCreateRequest;
+import cc.projectnexus.adapters.java.datamodels.User;
 import cc.projectnexus.adapters.java.request.NexusRequest;
 import cc.projectnexus.adapters.java.request.RequestResponse;
 import cc.projectnexus.adapters.java.route.Method;
+import cc.projectnexus.adapters.java.route.Route;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.util.Arrays;
@@ -15,61 +14,86 @@ import java.util.List;
 
 public class InfractionComponent {
 
-	public static int getInfractionAmount() {
-		NexusRequest request = new NexusRequest(Method.GET, "https://api.projectnexus.cc/infractions/count");
+	/**
+	 * Returns the amount of registered infractions that have an Infraction data model.
+	 *
+	 * @return The amount of registered infractions.
+	 */
+	public static int getAmountOfInfractions() {
+		NexusRequest request = new NexusRequest(Method.GET, Route.InfractionRoutes.GET_INFRACTION_COUNT);
 		RequestResponse response = request.execute();
-		JsonAdapter jsonAdapter = new JsonAdapter();
+		if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while getting the amount of infractions.");
+		return new Gson().fromJson(response.getResponse(), JsonObject.class).get("count").getAsInt();
+	}
 
-		if (response.getResponse().isEmpty()) {
-			return 0;
-		} else {
-			String json = response.getResponse();
-			Gson gson = new Gson();
+	/**
+	 * Get all the infractions that are registered in the database.
+	 * @return An array of infractions.
+	 */
+	public static Infraction[] getAllInfractions() {
+		NexusRequest request = new NexusRequest(Method.GET, Route.InfractionRoutes.GET_ALL_INFRACTIONS);
+		RequestResponse response = request.execute();
+		if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while getting all infractions.");
+		return new Gson().fromJson(response.getResponse(), Infraction[].class);
+	}
 
-			try {
-				JsonElement jsonElement = gson.fromJson(json, JsonElement.class);
-				JsonObject jsonObject = jsonElement.getAsJsonObject();
+	/**
+	 * Search the database for an infraction with a given ID or User ID.
+	 * @param id
+	 * @param userId
+	 * @return The infraction that was found.
+	 */
+	public static Infraction getInfraction (String id, String userId) {
+		List<Infraction> infractions = Arrays.stream(getAllInfractions()).toList();
 
-				int amount = jsonObject.get("count").getAsInt();
-
-				return amount;
-			} catch (Exception e) {
-				return 0;
-			}
+		if (id != null) {
+			return infractions.stream()
+					.filter(infraction -> infraction.getId().equalsIgnoreCase(id))
+					.findAny()
+					.orElse(null);
+		} else if (userId != null) {
+			return infractions.stream()
+					.filter(infraction -> infraction.getUserId().equalsIgnoreCase(userId))
+					.findAny()
+					.orElse(null);
 		}
+
+		return null;
 	}
 
-	public static List<Infraction> getAllInfractions() {
-		JsonAdapter jsonAdapter = new JsonAdapter();
-
-		NexusRequest request = new NexusRequest(
-				Method.GET,
-				"https://api.projectnexus.cc/infractions"
-		);
-
-		RequestResponse res = request.execute();
-
-		Infraction[] infractionArray = jsonAdapter.fromJson(res.getResponse(), Infraction[].class);
-		List<Infraction> infractionList = Arrays.asList(infractionArray);
-
-		infractionList.forEach(g -> {
-			System.out.println(g.getInfractionReason());
-		});
-
-		return infractionList;
+	/**
+	 * Create a new infraction in the database.
+	 * @param data The data to pass
+	 * @return The created infraction.
+	 */
+	public static Infraction createInfraction(JsonObject data) {
+		NexusRequest request = new NexusRequest(Method.POST, Route.InfractionRoutes.POST_NEW_INFRACTION, data.toString());
+		RequestResponse response = request.execute();
+		if (response.getResponseCode() != 201) throw new RuntimeException("Something went wrong while creating a new infraction.");
+		return new Gson().fromJson(response.getResponse(), Infraction.class);
 	}
 
-	public static RequestResponse addInfraction(InfractionCreateRequest requestBody) {
-		JsonAdapter jsonAdapter = new JsonAdapter();
-		String json = jsonAdapter.toJson(requestBody);
-
-		System.out.println(json);
-
-		NexusRequest request = new NexusRequest(Method.POST, "https://api.projectnexus.cc/infraction", json);
-		RequestResponse res = request.execute();
-
-		return res;
+	/**
+	 * Delete an infraction from the database.
+	 * @param id The ID of the infraction.
+	 * @return If the infraction was deleted successfully.
+	 */
+	public static boolean deleteInfraction(String id) {
+		NexusRequest request = new NexusRequest(Method.DELETE, Route.InfractionRoutes.DELETE_INFRACTION + id);
+		RequestResponse response = request.execute();
+		if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while deleting the infraction.");
+		return true;
 	}
 
-
+	/**
+	 * Update an infraction in the database
+	 * @param infraction The infraction to update.
+	 * @return The updated infraction.
+	 */
+	public static Infraction updateInfraction(Infraction infraction) {
+		NexusRequest request = new NexusRequest(Method.PUT, Route.InfractionRoutes.PUT_UPDATE_INFRACTION + infraction.getId(), new Gson().toJson(infraction));
+		RequestResponse response = request.execute();
+		if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while updating the infraction.");
+		return new Gson().fromJson(response.getResponse(), Infraction.class);
+	}
 }
