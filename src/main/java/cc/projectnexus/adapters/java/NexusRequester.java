@@ -47,7 +47,8 @@ public class NexusRequester {
 		connection.setRequestMethod("POST");
 
 		// Set request headers
-		setCommonHeaders(connection, bearerToken);
+		connection.setRequestProperty("User-Agent", USER_AGENT);
+		connection.setRequestProperty("Authorization", "Bearer 2OAln4KjAoeO9KfFPaEcijZ2YsBotqccnGEMz18H2g6p175Cevm2Ujp0DOzwab6L BOT");
 
 		// Enable output stream and write request body data
 		setRequestBody(connection, data);
@@ -66,7 +67,6 @@ public class NexusRequester {
 			in.close();
 		} else {
 			System.out.println("Error - Could not send request:");
-			System.out.println(response);
 			System.out.println(responseCode);
 		}
 
@@ -138,7 +138,7 @@ public class NexusRequester {
 
 	private static void setCommonHeaders(HttpURLConnection connection, String bearerToken) {
 		connection.setRequestProperty("User-Agent", USER_AGENT);
-		connection.setRequestProperty("Authorization", "Bearer " + bearerToken);
+		connection.setRequestProperty("Authorization", "Bearer 2OAln4KjAoeO9KfFPaEcijZ2YsBotqccnGEMz18H2g6p175Cevm2Ujp0DOzwab6L BOT");
 	}
 
 	private static void setRequestBody(HttpURLConnection connection, String data) throws IOException {
