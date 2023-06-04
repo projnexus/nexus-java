@@ -43,7 +43,7 @@ public class NexusRequest {
 
 		connection.setRequestMethod(method.name().toUpperCase());
 		connection.setRequestProperty("User-Agent", "NexusJavaAdapter");
-		connection.setRequestProperty("Authorization", "Bearer " + NexusClient.getInstance().getProperties().getToken());
+		connection.setRequestProperty("Authorization", NexusClient.getInstance().getProperties().getToken());
 
 		if (hasData) {
 			connection.setRequestProperty("Content-Type", "application/json");
