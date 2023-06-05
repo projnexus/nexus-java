@@ -1,5 +1,6 @@
 package cc.projectnexus.adapters.java.component;
 
+import cc.projectnexus.adapters.java.client.NexusClient;
 import cc.projectnexus.adapters.java.datamodels.GuildSettings;
 import cc.projectnexus.adapters.java.request.NexusRequest;
 import cc.projectnexus.adapters.java.request.RequestResponse;
@@ -13,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GuildComponent {
+	private static boolean debug = NexusClient.getInstance().getProperties().isDebug();
 
 	/**
 	 * Returns the amount of registered guilds that have a Guild data model.
@@ -22,7 +24,8 @@ public class GuildComponent {
 	public static int getAmountOfGuilds() {
 		NexusRequest request = new NexusRequest(Method.GET, Route.GuildsRoutes.GET_AMOUNT_COUNT);
 		RequestResponse response = request.execute();
-		if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while getting the amount of guilds.");
+		if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while getting the amount of guilds. " +
+				"Received Code - " + response.getResponseCode());
 		return new Gson().fromJson(response.getResponse(), JsonObject.class).get("count").getAsInt();
 	}
 
@@ -34,7 +37,8 @@ public class GuildComponent {
 	public static GuildSettings getGuild (String id) {
 		NexusRequest request = new NexusRequest(Method.GET, Route.GuildsRoutes.GET_DATA_SINGLE + id);
 		RequestResponse response = request.execute();
-		if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while getting the guild.");
+		if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while getting a guild. " +
+				"Received Code - " + response.getResponseCode());
 		return new Gson().fromJson(response.getResponse(), GuildSettings.class);
 	}
 
@@ -48,7 +52,8 @@ public class GuildComponent {
 		object.addProperty("guildId", guildId);
 		NexusRequest request = new NexusRequest(Method.POST, Route.GuildsRoutes.POST_CREATE_NEW, object.toString());
 		RequestResponse response = request.execute();
-		if (response.getResponseCode() != 201) throw new RuntimeException("Something went wrong while creating the guild.");
+		if (response.getResponseCode() != 201) throw new RuntimeException("Something went wrong while creating a new guild. " +
+				"Received Code - " + response.getResponseCode());
 		return new Gson().fromJson(response.getResponse(), GuildSettings.class);
 	}
 
@@ -60,7 +65,8 @@ public class GuildComponent {
 	public static boolean deleteGuild(String id) {
 		NexusRequest request = new NexusRequest(Method.DELETE, Route.GuildsRoutes.DELETE_GUILD + id);
 		RequestResponse response = request.execute();
-		if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while deleting the guild.");
+		if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while deleting an guild. " +
+				"Received Code - " + response.getResponseCode());
 		return true;
 	}
 
@@ -79,7 +85,8 @@ public class GuildComponent {
 		data.add("enabled_regions", new Gson().toJsonTree(guild.getEnabledRegions()));
 		NexusRequest request = new NexusRequest(Method.PUT, Route.GuildsRoutes.PUT_UPDATE_GUILD + guild.getGuildId(), data.toString());
 		RequestResponse response = request.execute();
-		if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while updating the guild.");
+		if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while updating a guild. " +
+				"Received Code - " + response.getResponseCode());
 		return new Gson().fromJson(response.getResponse(), GuildSettings.class);
 	}
 

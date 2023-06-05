@@ -21,7 +21,8 @@ public class InfractionComponent {
 	public static int getAmountOfInfractions() {
 		NexusRequest request = new NexusRequest(Method.GET, Route.InfractionRoutes.GET_INFRACTION_COUNT);
 		RequestResponse response = request.execute();
-		if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while getting the amount of infractions.");
+		if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while getting the amount of infractions." +
+				"Received Code: " + response.getResponseCode());
 		return new Gson().fromJson(response.getResponse(), JsonObject.class).get("count").getAsInt();
 	}
 
@@ -32,7 +33,8 @@ public class InfractionComponent {
 	public static Infraction[] getAllInfractions() {
 		NexusRequest request = new NexusRequest(Method.GET, Route.InfractionRoutes.GET_ALL_INFRACTIONS);
 		RequestResponse response = request.execute();
-		if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while getting all infractions.");
+		if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while getting all infractions." +
+				"Received Code: " + response.getResponseCode());
 		return new Gson().fromJson(response.getResponse(), Infraction[].class);
 	}
 
@@ -68,7 +70,8 @@ public class InfractionComponent {
 	public static Infraction createInfraction(JsonObject data) {
 		NexusRequest request = new NexusRequest(Method.POST, Route.InfractionRoutes.POST_NEW_INFRACTION, data.toString());
 		RequestResponse response = request.execute();
-		if (response.getResponseCode() != 201) throw new RuntimeException("Something went wrong while creating a new infraction.");
+		if (response.getResponseCode() != 201) throw new RuntimeException("Something went wrong while creating a new infraction. " +
+				"Received Code: " + response.getResponseCode());
 		return new Gson().fromJson(response.getResponse(), Infraction.class);
 	}
 
@@ -80,7 +83,8 @@ public class InfractionComponent {
 	public static boolean deleteInfraction(String id) {
 		NexusRequest request = new NexusRequest(Method.DELETE, Route.InfractionRoutes.DELETE_INFRACTION + id);
 		RequestResponse response = request.execute();
-		if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while deleting the infraction.");
+		if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while deleting the infraction." +
+				"Received-Code: " + response.getResponseCode());
 		return true;
 	}
 
@@ -94,7 +98,8 @@ public class InfractionComponent {
 	public static Infraction updateInfraction(Infraction infraction) {
 		NexusRequest request = new NexusRequest(Method.PUT, Route.InfractionRoutes.PUT_UPDATE_INFRACTION + infraction.getId(), new Gson().toJson(infraction));
 		RequestResponse response = request.execute();
-		if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while updating the infraction.");
+		if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while updating the infraction. " +
+				"Received Code: " + response.getResponseCode());
 		return new Gson().fromJson(response.getResponse(), Infraction.class);
 	}
 }
