@@ -21,7 +21,7 @@ public class UserComponent {
     public static int getAmountOfUsers() {
         NexusRequest request = new NexusRequest(Method.GET, Route.UserRoutes.GET_USER_AMOUNT);
         RequestResponse response = request.execute();
-        if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while getting the amount of users.");
+        if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while getting the amount of users. Received Code - " + response.getResponseCode());
         return new Gson().fromJson(response.getResponse(), JsonObject.class).get("count").getAsInt();
     }
 
@@ -32,7 +32,8 @@ public class UserComponent {
     public static User[] getAllUsers() {
         NexusRequest request = new NexusRequest(Method.GET, Route.UserRoutes.GET_ALL_USERS);
         RequestResponse response = request.execute();
-        if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while getting all users.");
+        if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while getting all users. " +
+                "Received Code: " + response.getResponseCode());
         return new Gson().fromJson(response.getResponse(), User[].class);
     }
 
@@ -68,7 +69,8 @@ public class UserComponent {
     public static boolean deleteUser(String id) {
         NexusRequest request = new NexusRequest(Method.DELETE, Route.UserRoutes.DELETE_USER + id);
         RequestResponse response = request.execute();
-        if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while deleting the user.");
+        if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while deleting the user. " +
+                "Received-Code: " + response.getResponseCode());
         return true;
     }
 
@@ -82,7 +84,8 @@ public class UserComponent {
     public static User updateUser(User user) {
         NexusRequest request = new NexusRequest(Method.PUT, Route.UserRoutes.UPDATE_USER + user.getId(), new Gson().toJson(user));
         RequestResponse response = request.execute();
-        if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while updating the user.");
+        if (response.getResponseCode() != 200) throw new RuntimeException("Something went wrong while updating the user. " +
+                "Received-Code: " + response.getResponseCode());
         return getUser(user.getId(), null);
     }
 
